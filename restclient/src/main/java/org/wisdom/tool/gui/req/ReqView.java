@@ -15,6 +15,7 @@
  */
 package org.wisdom.tool.gui.req;
 
+import okhttp3.Call;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -67,6 +68,13 @@ public class ReqView extends JPanel implements ActionListener {
     private Panel pnlUrl = null;
 
     private RESTThd reqThd = null;
+
+
+    /**
+     * 当前请求
+     */
+    Call call ;
+
 
     public ReqView() {
         this.init();
@@ -330,6 +338,15 @@ public class ReqView extends JPanel implements ActionListener {
         }
     }
 
+    public Call getCall() {
+        return call;
+    }
+
+    public void setCall(Call call) {
+        this.call = call;
+    }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         this.bdyPerformed(e.getSource());
         this.btnStartPerformed(e.getSource());

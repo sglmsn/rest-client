@@ -34,14 +34,17 @@ import org.wisdom.tool.gui.util.UIUtil;
 public class RESTThd extends Thread {
     private static Logger log = LogManager.getLogger(RESTThd.class);
 
+    @Override
     public void interrupt() {
         try {
+            RESTView.getView().getReqView().getCall().cancel();
             super.interrupt();
         } catch (Throwable e) {
             log.error("Failed to interrupt thread.", e);
         }
     }
 
+    @Override
     public void run() {
         ReqView rv = RESTView.getView().getReqView();
         UIUtil.submit(rv);

@@ -15,6 +15,7 @@
  */
 package org.wisdom.tool.util;
 
+import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wisdom.tool.constant.RESTConst;
+import org.wisdom.tool.gui.RESTView;
 import org.wisdom.tool.model.HttpMethod;
 import org.wisdom.tool.model.HttpReq;
 import org.wisdom.tool.model.HttpRsp;
@@ -146,10 +148,14 @@ public final class RESTClient {
                 return rsp;
             }
 
-            Response resp = HTTPClient.client()
-                    .newCall(request)
-                    .execute();
-            rsp = this.result(resp);
+            Call call = HTTPClient.client()
+                    .newCall(request);
+            RESTView.getView().getReqView().setCall(call);
+            try (Response resp = call
+                    .execute()) {
+                rsp = this.result(resp);
+            }
+            RESTView.getView().getReqView().setCall(null);
             rsp.setRawTxt(req.toRawTxt() + rsp.toRawTxt());
         } catch (Throwable e) {
             rsp.setRawTxt("Failed to process this HTTP request: \r\n" + req + "\r\nResponse messages from server: \r\n" + e.getMessage());

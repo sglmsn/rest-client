@@ -23,7 +23,6 @@ import org.wisdom.tool.constant.RESTConst;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -61,11 +60,7 @@ public class HTTPClient {
     }
 
     public static HostnameVerifier hostnameVerifier() {
-        HostnameVerifier hv = new HostnameVerifier() {
-            public boolean verify(String arg0, SSLSession arg1) {
-                return true;
-            }
-        };
+        HostnameVerifier hv = (arg0, arg1) -> true;
         return hv;
     }
 
@@ -91,8 +86,7 @@ public class HTTPClient {
         }
 
         httpClient = new OkHttpClient.Builder()
-                .readTimeout(RESTConst.TIME_60S, TimeUnit.SECONDS)
-                .connectTimeout(RESTConst.TIME_60S, TimeUnit.SECONDS)
+                .readTimeout(0, TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory(), x509TrustManager())
                 .hostnameVerifier(hostnameVerifier())
                 .build();
