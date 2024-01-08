@@ -16,39 +16,34 @@
 
 package org.wisdom.tool.gui.json;
 
+import javax.swing.*;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
-/** 
-* @Class Name : CheckBoxTreeNodeSelectionListener 
-* @Description: Tree node selection listener for check box 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Feb 26, 2018 5:01:50 PM 
-* @Version    : Wisdom RESTClient V1.3 
-*/
-public class CheckBoxTreeNodeSelectionListener extends MouseAdapter
-{
+/**
+ * @Class Name : CheckBoxTreeNodeSelectionListener
+ * @Description: Tree node selection listener for check box
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Feb 26, 2018 5:01:50 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class CheckBoxTreeNodeSelectionListener extends MouseAdapter {
     @Override
-    public void mouseClicked(MouseEvent event)
-    {
+    public void mouseClicked(MouseEvent event) {
         JTree tree = (JTree) event.getSource();
         int x = event.getX();
         int y = event.getY();
         int row = tree.getRowForLocation(x, y);
         TreePath path = tree.getPathForRow(row);
-        if (null == path)
-        {
+        if (null == path) {
             return;
         }
 
         CheckBoxTreeNode node = (CheckBoxTreeNode) path.getLastPathComponent();
-        if (null == node)
-        {
+        if (null == node) {
             return;
         }
 

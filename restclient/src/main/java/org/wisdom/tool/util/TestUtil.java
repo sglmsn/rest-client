@@ -15,11 +15,6 @@
  */
 package org.wisdom.tool.util;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.InputStream;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -37,46 +32,44 @@ import org.wisdom.tool.model.HttpRsp;
 import org.wisdom.tool.thread.RESTThdPool;
 import org.wisdom.tool.thread.TestThd;
 
-/** 
-* @ClassName: TestUtil 
-* @Description: Test utility 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-7-17 PM 1:11:29 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public final class TestUtil
-{
+import java.awt.*;
+import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+
+/**
+ * @ClassName: TestUtil
+ * @Description: Test utility
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-7-17 PM 1:11:29
+ * @Version: Wisdom RESTClient V1.3
+ */
+public final class TestUtil {
     private static Logger log = LogManager.getLogger(TestUtil.class);
-    
+
     /**
-    * 
-    * @Title: run 
-    * @Description: Run test cases 
-    * @param @param hists
-    * @param @return    
-    * @return void    
-    * @throws
+     * @param @param  hists
+     * @param @return
+     * @return void
+     * @throws
+     * @Title: run
+     * @Description: Run test cases
      */
-    public static void runTest(HttpHists hists)
-    {
-        if (null == hists || CollectionUtils.isEmpty(hists.getHists()))
-        {
+    public static void runTest(HttpHists hists) {
+        if (null == hists || CollectionUtils.isEmpty(hists.getHists())) {
             return;
         }
 
         List<HttpHist> histLst = hists.getHists();
         hists.setTotal(histLst.size());
-        for (HttpHist hist : histLst)
-        {
-            if (hists.isStop())
-            {
+        for (HttpHist hist : histLst) {
+            if (hists.isStop()) {
                 hists.reset();
                 return;
             }
 
-            if (null == hist.getReq() || null == hist.getRsp())
-            {
+            if (null == hist.getReq() || null == hist.getRsp()) {
                 hist.setCause(RESTUtil.getCause(ErrCode.BAD_CASE).toString());
                 hists.countErr();
                 continue;
@@ -90,33 +83,27 @@ public final class TestUtil
     }
 
     /**
-    * 
-    * @Title: run 
-    * @Description: Rerun cases 
-    * @param @param hists
-    * @param @return    
-    * @return void    
-    * @throws
+     * @param @param  hists
+     * @param @return
+     * @return void
+     * @throws
+     * @Title: run
+     * @Description: Rerun cases
      */
-    public static void rerunCases(HttpHists hists)
-    {
-        if (null == hists || CollectionUtils.isEmpty(hists.getHists()))
-        {
+    public static void rerunCases(HttpHists hists) {
+        if (null == hists || CollectionUtils.isEmpty(hists.getHists())) {
             return;
         }
 
         List<HttpHist> histLst = hists.getHists();
         hists.setTotal(histLst.size());
-        for (HttpHist hist : histLst)
-        {
-            if (hists.isStop())
-            {
+        for (HttpHist hist : histLst) {
+            if (hists.isStop()) {
                 hists.reset();
                 return;
             }
 
-            if (null == hist.getReq() || null == hist.getRsp())
-            {
+            if (null == hist.getReq() || null == hist.getRsp()) {
                 hist.setCause(RESTUtil.getCause(ErrCode.BAD_CASE).toString());
                 hists.countErr();
                 continue;
@@ -130,24 +117,21 @@ public final class TestUtil
     }
 
     /**
-    * 
-    * @Title: report 
-    * @Description: Save test result to report 
-    * @param @param hists 
-    * @return void
-    * @throws
+     * @param @param hists
+     * @return void
+     * @throws
+     * @Title: report
+     * @Description: Save test result to report
      */
-    private static synchronized void report(HttpHists hists)
-    {
-        try
-        {
+    private static synchronized void report(HttpHists hists) {
+        try {
             // Update JS
             InputStream is = RESTUtil.getInputStream(RESTConst.REPORT_JS);
             String jsTxt = IOUtils.toString(is, Charsets.UTF_8.getCname());
             jsTxt = jsTxt.replaceFirst(RESTConst.LABEL_REPORT_DATA, RESTUtil.tojsonText(hists));
             FileUtils.write(new File(RESTUtil.replacePath(RESTConst.REPORT_JS)), jsTxt, Charsets.UTF_8.getCname());
             RESTUtil.close(is);
-            
+
             // Update HTML
             is = RESTUtil.getInputStream(RESTConst.REPORT_HTML);
             String htmlTxt = IOUtils.toString(is, Charsets.UTF_8.getCname());
@@ -157,92 +141,76 @@ public final class TestUtil
             htmlTxt = htmlTxt.replaceFirst(RESTConst.LABEL_ERRORS, String.valueOf(hists.getErrors()));
             FileUtils.write(new File(RESTUtil.replacePath(RESTConst.REPORT_HTML)), htmlTxt, Charsets.UTF_8.getCname());
             RESTUtil.close(is);
-            
+
             // Copy file
             is = RESTUtil.getInputStream(RESTConst.REPORT_JQUERY);
             FileUtils.copyInputStreamToFile(is, new File(RESTUtil.replacePath(RESTConst.REPORT_JQUERY)));
             RESTUtil.close(is);
-            
+
             is = RESTUtil.getInputStream(RESTConst.REPORT_CSS);
             FileUtils.copyInputStreamToFile(is, new File(RESTUtil.replacePath(RESTConst.REPORT_CSS)));
             RESTUtil.close(is);
-            
+
             is = RESTUtil.getInputStream(RESTConst.LOGO);
             String rpath = RESTUtil.getPath(RESTConst.REPORT);
             String logoPath = StringUtils.replaceOnce(RESTConst.LOGO, RESTConst.WISDOM_TOOL, rpath);
             FileUtils.copyInputStreamToFile(is, new File(logoPath));
             RESTUtil.close(is);
 
-            try
-            {
+            try {
                 // Open test report
                 Desktop.getDesktop().open(new File(RESTUtil.replacePath(RESTConst.REPORT_HTML)));
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 UIUtil.showMessage(RESTConst.MSG_REPORT, RESTConst.TEST_REPORT);
             }
 
-        }
-        catch(Throwable e)
-        {
+        } catch (Throwable e) {
             log.error("Failed to generate report.", e);
         }
-        
+
     }
-    
+
     /**
-    * 
-    * @Title      : open 
-    * @Description: Open test report 
-    * @Param      : @param path
-    * @Param      : @param msg
-    * @Param      : @param title 
-    * @Return     : void
-    * @Throws     :
+     * @Title : open
+     * @Description: Open test report
+     * @Param : @param path
+     * @Param : @param msg
+     * @Param : @param title
+     * @Return : void
+     * @Throws :
      */
-    public static void open(String path, final String msg, final String title)
-    {
+    public static void open(String path, final String msg, final String title) {
         File rf = new File(RESTUtil.replacePath(path));
-        if (!rf.exists())
-        {
+        if (!rf.exists()) {
             return;
         }
 
-        try
-        {
+        try {
             Desktop.getDesktop().open(rf);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             UIUtil.showMessage(msg, title);
         }
     }
-    
+
     /**
-    * 
-    * @Title      : progress 
-    * @Description: Display progress 
-    * @Param      : @param hists 
-    * @Return     : void
-    * @Throws     :
+     * @Title : progress
+     * @Description: Display progress
+     * @Param : @param hists
+     * @Return : void
+     * @Throws :
      */
-    public static void progress(HttpHists hists)
-    {
+    public static void progress(HttpHists hists) {
         int done = 0;
         int preDone = 0;
         int progress = 0;
 
         System.out.print(RESTConst.TEST_CASE + ".\r\nCompleted --> ");
-        while (progress < hists.getTotal())
-        {
+        while (progress < hists.getTotal()) {
             progress = hists.progress();
             done = Math.min(progress, hists.getTotal()) * 100 / hists.getTotal();
-            if (done != preDone)
-            {
+            if (done != preDone) {
                 System.out.print(done + "%");
-                for (int i = 0; i <= String.valueOf(done).length(); i++)
-                {
+                for (int i = 0; i <= String.valueOf(done).length(); i++) {
                     System.out.print("\b");
                 }
             }
@@ -253,15 +221,13 @@ public final class TestUtil
     }
 
     /**
-    * 
-    * @Title      : apiTest 
-    * @Description: test API 
-    * @Param      : @param hists 
-    * @Return     : void
-    * @Throws     :
+     * @Title : apiTest
+     * @Description: test API
+     * @Param : @param hists
+     * @Return : void
+     * @Throws :
      */
-    public static void apiTest(HttpHists hists)
-    {
+    public static void apiTest(HttpHists hists) {
         Thread testThrd = new TestThd(hists);
         testThrd.setName(RESTConst.TEST_THREAD);
         RESTThdPool.getInstance().getPool().submit(testThrd);

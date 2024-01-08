@@ -15,20 +15,19 @@
  */
 package org.wisdom.tool.model;
 
-import java.io.Serializable;
-
 import org.wisdom.tool.apidoc.APIUtil;
 
-/** 
-* @ClassName: APISum 
-* @Description: RESTful API summary 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APISum implements Serializable
-{
+import java.io.Serializable;
+
+/**
+ * @ClassName: APISum
+ * @Description: RESTful API summary
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APISum implements Serializable {
     private static final long serialVersionUID = 5656937659315612005L;
 
     /**
@@ -46,14 +45,11 @@ public class APISum implements Serializable
      */
     private String path;
 
-    public APISum()
-    {
+    public APISum() {
     }
-    
-    public APISum(HttpReq req)
-    {
-        if (null == req)
-        {
+
+    public APISum(HttpReq req) {
+        if (null == req) {
             return;
         }
 
@@ -62,44 +58,36 @@ public class APISum implements Serializable
         this.method = req.getMethod().name();
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getMethod()
-    {
+    public String getMethod() {
         return method;
     }
 
-    public void setMethod(String method)
-    {
+    public void setMethod(String method) {
         this.method = method;
     }
 
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(String path)
-    {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    public String apiKey()
-    {
+    public String apiKey() {
         return this.method + this.path;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APISumry [title=");
         builder.append(title);
@@ -110,5 +98,5 @@ public class APISum implements Serializable
         builder.append("]");
         return builder.toString();
     }
-   
+
 }

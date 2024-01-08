@@ -19,30 +19,27 @@ package org.wisdom.tool.thread;
 import org.wisdom.tool.RESTMain;
 import org.wisdom.tool.constant.RESTConst;
 
-/** 
-* @Class Name : LoadThd 
-* @Description: Load historical data thread 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Feb 3, 2018 8:00:34 PM 
-* @Version    : Wisdom RESTClient V1.3
-*/
-public class LoadThd extends Thread
-{
+/**
+ * @Class Name : LoadThd
+ * @Description: Load historical data thread
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Feb 3, 2018 8:00:34 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class LoadThd extends Thread {
     private String path = RESTConst.EMPTY;
-    
-    /** 
-    * @Title      : LoadThd 
-    * @Description: New load thread 
-    * @Param      : @param path
-    */
-    public LoadThd(String path)
-    {
+
+    /**
+     * @Title : LoadThd
+     * @Description: New load thread
+     * @Param : @param path
+     */
+    public LoadThd(String path) {
         this.path = path;
     }
 
-    public void run()
-    {
+    public void run() {
         RESTMain.load(path);
         RESTMain.init();
     }

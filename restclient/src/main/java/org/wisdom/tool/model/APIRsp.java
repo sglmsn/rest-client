@@ -15,23 +15,22 @@
  */
 package org.wisdom.tool.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @ClassName: APIRsp 
-* @Description: RESTful API response 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APIRsp implements Serializable
-{
+import java.io.Serializable;
+
+/**
+ * @ClassName: APIRsp
+ * @Description: RESTful API response
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APIRsp implements Serializable {
     private static final long serialVersionUID = 4725797171705482898L;
 
     /**
@@ -53,96 +52,78 @@ public class APIRsp implements Serializable
      * API response model
      */
     private String model;
-    
+
     /**
      * API response example
      */
     private String example;
 
-    public APIRsp()
-    {
+    public APIRsp() {
     }
-    
-    public APIRsp(HttpRsp rsp)
-    {
-        if (null == rsp)
-        {
+
+    public APIRsp(HttpRsp rsp) {
+        if (null == rsp) {
             return;
         }
 
-        if (StringUtils.isEmpty(rsp.getBody()))
-        {
+        if (StringUtils.isEmpty(rsp.getBody())) {
             this.model = RESTConst.NA;
             this.example = RESTConst.NA;
-        }
-        else
-        {
+        } else {
             this.model = StringEscapeUtils.escapeHtml(RESTUtil.toModel(rsp.getBody()));
             this.example = StringEscapeUtils.escapeHtml(RESTUtil.format(rsp.getBody()));
         }
 
         this.status = rsp.getStatus();
         this.code = rsp.getStatusCode();
-        if (null == this.code)
-        {
+        if (null == this.code) {
             this.code = 0;
         }
         this.message = rsp.getMessage();
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status)
-    {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Integer getCode()
-    {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(Integer code)
-    {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message)
-    {
+    public void setMessage(String message) {
         this.message = message;
     }
 
-    public String getModel()
-    {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(String model)
-    {
+    public void setModel(String model) {
         this.model = model;
     }
 
-    public String getExample()
-    {
+    public String getExample() {
         return example;
     }
 
-    public void setExample(String example)
-    {
+    public void setExample(String example) {
         this.example = example;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APIRep [status=");
         builder.append(status);
@@ -157,6 +138,6 @@ public class APIRsp implements Serializable
         builder.append("]");
         return builder.toString();
     }
-    
-   
+
+
 }

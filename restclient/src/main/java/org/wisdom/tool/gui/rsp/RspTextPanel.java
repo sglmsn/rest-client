@@ -15,34 +15,27 @@
  */
 package org.wisdom.tool.gui.rsp;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
+import org.apache.commons.lang.StringUtils;
+import org.wisdom.tool.constant.RESTConst;
+import org.wisdom.tool.util.RESTUtil;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import org.apache.commons.lang.StringUtils;
-import org.wisdom.tool.constant.RESTConst;
-import org.wisdom.tool.util.RESTUtil;
-
-/** 
-* @ClassName: RspBodyPanel 
-* @Description: Response body panel 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RspTextPanel extends JPanel implements ActionListener
-{
+/**
+ * @ClassName: RspBodyPanel
+ * @Description: Response body panel
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RspTextPanel extends JPanel implements ActionListener {
     private static final long serialVersionUID = 5120996065049850894L;
 
     private JTextArea txtAra = null;
@@ -53,67 +46,54 @@ public class RspTextPanel extends JPanel implements ActionListener
 
     private JMenuItem miCpy = null;
 
-    private MouseAdapter ma = new MouseAdapter()
-    {
-        private void popup(MouseEvent e)
-        {
-            if (!txtAra.isEnabled() || StringUtils.isBlank(txtAra.getText()))
-            {
+    private MouseAdapter ma = new MouseAdapter() {
+        private void popup(MouseEvent e) {
+            if (!txtAra.isEnabled() || StringUtils.isBlank(txtAra.getText())) {
                 miFmt.setEnabled(false);
                 miCpy.setEnabled(false);
                 return;
             }
 
             txtAra.requestFocus();
-            if (RESTConst.RAW.equals(txtAra.getName()))
-            {
+            if (RESTConst.RAW.equals(txtAra.getName())) {
                 miFmt.setEnabled(false);
-            }
-            else
-            {
+            } else {
                 miFmt.setEnabled(true);
             }
 
             miCpy.setEnabled(true);
-            if (e.isPopupTrigger())
-            {
+            if (e.isPopupTrigger()) {
                 pm.show(e.getComponent(), e.getX(), e.getY());
             }
         }
 
         @Override
-        public void mousePressed(MouseEvent e)
-        {
+        public void mousePressed(MouseEvent e) {
             this.popup(e);
         }
 
         @Override
-        public void mouseReleased(MouseEvent e)
-        {
+        public void mouseReleased(MouseEvent e) {
             this.popup(e);
         }
     };
 
-    public RspTextPanel(String name)
-    {
+    public RspTextPanel(String name) {
         this.init(name);
     }
 
-    public JTextArea getTxtAra()
-    {
+    public JTextArea getTxtAra() {
         return txtAra;
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init(String name)
-    {
+    private void init(String name) {
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, 0));
 
         txtAra = new JTextArea(RESTConst.AREA_ROWS, 1);
@@ -142,43 +122,35 @@ public class RspTextPanel extends JPanel implements ActionListener
         this.add(pnlCenter, BorderLayout.CENTER);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        if (!(src instanceof JMenuItem))
-        {
+        if (!(src instanceof JMenuItem)) {
             return;
         }
 
-        if (StringUtils.isBlank(txtAra.getText()))
-        {
+        if (StringUtils.isBlank(txtAra.getText())) {
             return;
         }
 
         JMenuItem item = (JMenuItem) (src);
-        if (RESTConst.FORMAT.equals(item.getName()))
-        {
+        if (RESTConst.FORMAT.equals(item.getName())) {
             String body = RESTUtil.format(txtAra.getText());
             txtAra.setText(body);
             return;
         }
 
-        if (RESTConst.COPY.equals(item.getName()))
-        {
+        if (RESTConst.COPY.equals(item.getName())) {
             StringSelection ss = null;
             String seltxt = txtAra.getSelectedText();
-            if (StringUtils.isNotBlank(seltxt))
-            {
+            if (StringUtils.isNotBlank(seltxt)) {
                 ss = new StringSelection(seltxt);
-            }
-            else
-            {
+            } else {
                 ss = new StringSelection(txtAra.getText());
             }
 
             Toolkit.getDefaultToolkit()
-                   .getSystemClipboard()
-                   .setContents(ss, null);
+                    .getSystemClipboard()
+                    .setContents(ss, null);
 
         }
     }

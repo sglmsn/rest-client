@@ -18,82 +18,68 @@ package org.wisdom.tool.gui.json;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-/** 
-* @Class Name : CheckBoxTreeNode 
-* @Description: Tree node for check box 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Feb 26, 2018 3:53:19 PM 
-* @Version    : Wisdom RESTClient V1.3 
-*/
-public class CheckBoxTreeNode extends DefaultMutableTreeNode
-{
+/**
+ * @Class Name : CheckBoxTreeNode
+ * @Description: Tree node for check box
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Feb 26, 2018 3:53:19 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class CheckBoxTreeNode extends DefaultMutableTreeNode {
     private static final long serialVersionUID = 4611002678269395854L;
 
     protected boolean selected;
 
     /**
-    * 
-    * @Title      : CheckBoxTreeNode 
-    * @Description: default constructor 
-    * @Param      :
+     * @Title : CheckBoxTreeNode
+     * @Description: default constructor
+     * @Param :
      */
-    public CheckBoxTreeNode()
-    {
+    public CheckBoxTreeNode() {
         this(null);
     }
 
     /**
-    * 
-    * @Title      : CheckBoxTreeNode 
-    * @Description: constructor 
-    * @Param      : @param userObject
+     * @Title : CheckBoxTreeNode
+     * @Description: constructor
+     * @Param : @param userObject
      */
-    public CheckBoxTreeNode(Object userObject)
-    {
+    public CheckBoxTreeNode(Object userObject) {
         this(userObject, true, false);
     }
 
     /**
-    * 
-    * @Title      : CheckBoxTreeNode 
-    * @Description: constructor 
-    * @Param      : @param userObject
-    * @Param      : @param allowsChildren
-    * @Param      : @param selected
+     * @Title : CheckBoxTreeNode
+     * @Description: constructor
+     * @Param : @param userObject
+     * @Param : @param allowsChildren
+     * @Param : @param selected
      */
-    public CheckBoxTreeNode(Object userObject, boolean allowsChildren, boolean selected)
-    {
+    public CheckBoxTreeNode(Object userObject, boolean allowsChildren, boolean selected) {
         super(userObject, allowsChildren);
         this.selected = selected;
     }
 
-    public boolean isSelected()
-    {
+    public boolean isSelected() {
         return selected;
     }
 
     /**
-    * 
-    * @Title      : setSelected 
-    * @Description: Set node to be selected or unselected  
-    * @Param      : @param selected 
-    * @Return     : void
-    * @Throws     :
+     * @Title : setSelected
+     * @Description: Set node to be selected or unselected
+     * @Param : @param selected
+     * @Return : void
+     * @Throws :
      */
-    public void setSelected(boolean selected)
-    {
+    public void setSelected(boolean selected) {
         this.selected = selected;
-        if (selected)
-        {
+        if (selected) {
             // If the node is selected, all of its child nodes are selected
-            if (null != children)
-            {
-                for (Object child : children)
-                {
+            if (null != children) {
+                for (Object child : children) {
                     CheckBoxTreeNode childNode = (CheckBoxTreeNode) child;
-                    if (selected != childNode.isSelected())
-                    {
+                    if (selected != childNode.isSelected()) {
                         childNode.setSelected(selected);
                     }
                 }
@@ -109,14 +95,11 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode
              * Begin to check whether all of the child nodes of the pNode are
              * selected
              */
-            if (null != pNode)
-            {
+            if (null != pNode) {
                 int index = 0;
-                for (; index < pNode.children.size(); ++index)
-                {
+                for (; index < pNode.children.size(); ++index) {
                     CheckBoxTreeNode pChildNode = (CheckBoxTreeNode) pNode.children.get(index);
-                    if (!pChildNode.isSelected())
-                    {
+                    if (!pChildNode.isSelected()) {
                         break;
                     }
                 }
@@ -128,17 +111,13 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode
                  * because the parent node itself will be checked upwards after
                  * the parent node is elected.
                  */
-                if (index == pNode.children.size())
-                {
-                    if (pNode.isSelected() != selected)
-                    {
+                if (index == pNode.children.size()) {
+                    if (pNode.isSelected() != selected) {
                         pNode.setSelected(selected);
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             /*
              * If the child node is canceled when the parent node is cancelled,
              * then all the child nodes should be selected. Otherwise, the
@@ -147,26 +126,20 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode
              * in the cancellation of the child node, but there is no need to
              * cancel the child node at this time.
              */
-            if (null != children)
-            {
+            if (null != children) {
                 int index = 0;
-                for (; index < children.size(); ++index)
-                {
+                for (; index < children.size(); ++index) {
                     CheckBoxTreeNode childNode = (CheckBoxTreeNode) children.get(index);
-                    if (!childNode.isSelected())
-                    {
+                    if (!childNode.isSelected()) {
                         break;
                     }
                 }
 
                 // Cancel from up to down
-                if (index == children.size())
-                {
-                    for (int i = 0; i < children.size(); ++i)
-                    {
+                if (index == children.size()) {
+                    for (int i = 0; i < children.size(); ++i) {
                         CheckBoxTreeNode childNode = (CheckBoxTreeNode) children.get(i);
-                        if (childNode.isSelected() != selected)
-                        {
+                        if (childNode.isSelected() != selected) {
                             childNode.setSelected(selected);
                         }
                     }
@@ -178,11 +151,10 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode
              * selected, the parent should not be selected.
              */
             CheckBoxTreeNode pNode = (CheckBoxTreeNode) parent;
-            if (pNode != null && pNode.isSelected() != selected)
-            {
+            if (pNode != null && pNode.isSelected() != selected) {
                 pNode.setSelected(selected);
             }
         }
     }
-    
+
 }

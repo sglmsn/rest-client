@@ -15,25 +15,23 @@
  */
 package org.wisdom.tool.model;
 
-import java.io.Serializable;
-import java.util.Locale;
-
-import org.wisdom.tool.constant.RESTConst;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.wisdom.tool.constant.RESTConst;
 
-/** 
-* @ClassName: Cause 
-* @Description: Test cause 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-25 PM 7:58:51 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class Cause implements Serializable
-{
+import java.io.Serializable;
+import java.util.Locale;
+
+/**
+ * @ClassName: Cause
+ * @Description: Test cause
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-25 PM 7:58:51
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class Cause implements Serializable {
     private static final long serialVersionUID = 6630167190284292762L;
 
     /**
@@ -56,14 +54,11 @@ public class Cause implements Serializable
     @JsonProperty("message_En_US")
     private String msgEnUS;
 
-    public Cause()
-    {
+    public Cause() {
     }
 
-    public Cause(Cause c)
-    {
-        if (null == c)
-        {
+    public Cause(Cause c) {
+        if (null == c) {
             return;
         }
 
@@ -72,52 +67,41 @@ public class Cause implements Serializable
         this.msgEnUS = c.getMsgEnUS();
     }
 
-    public ErrCode getCode()
-    {
+    public ErrCode getCode() {
         return code;
     }
 
-    public void setCode(ErrCode code)
-    {
+    public void setCode(ErrCode code) {
         this.code = code;
     }
 
-    public String getMsgZhCN()
-    {
+    public String getMsgZhCN() {
         return msgZhCN;
     }
 
-    public void setMsgZhCN(String msgZhCN)
-    {
+    public void setMsgZhCN(String msgZhCN) {
         this.msgZhCN = msgZhCN;
     }
 
-    public String getMsgEnUS()
-    {
+    public String getMsgEnUS() {
         return msgEnUS;
     }
 
-    public void setMsgEnUS(String msgEnUS)
-    {
+    public void setMsgEnUS(String msgEnUS) {
         this.msgEnUS = msgEnUS;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (code.equals(ErrCode.SUCCESS))
-        {
+        if (code.equals(ErrCode.SUCCESS)) {
             sb.append("-");
             return sb.toString();
         }
 
-        if (RESTConst.LANG_ZH.equalsIgnoreCase(Locale.getDefault().getLanguage()))
-        {
+        if (RESTConst.LANG_ZH.equalsIgnoreCase(Locale.getDefault().getLanguage())) {
             sb.append(msgZhCN);
-        }
-        else
-        {
+        } else {
             sb.append(msgEnUS);
         }
 

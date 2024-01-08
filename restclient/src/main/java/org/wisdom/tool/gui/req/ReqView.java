@@ -15,23 +15,6 @@
  */
 package org.wisdom.tool.gui.req;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
-
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -42,16 +25,23 @@ import org.wisdom.tool.model.HttpMethod;
 import org.wisdom.tool.model.HttpReq;
 import org.wisdom.tool.thread.RESTThd;
 
-/** 
-* @ClassName: ReqView 
-* @Description: Request view panel 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class ReqView extends JPanel implements ActionListener
-{
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * @ClassName: ReqView
+ * @Description: Request view panel
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class ReqView extends JPanel implements ActionListener {
     private static final long serialVersionUID = -1299418241312495718L;
 
     private static Logger log = LogManager.getLogger(ReqView.class);
@@ -67,7 +57,7 @@ public class ReqView extends JPanel implements ActionListener
     private JButton btnStart = null;
 
     private JProgressBar pb = null;
-    
+
     private ReqBodyPanel pnlBody = null;
 
     private ReqTabPanel pnlHdr = null;
@@ -78,77 +68,64 @@ public class ReqView extends JPanel implements ActionListener
 
     private RESTThd reqThd = null;
 
-    public ReqView()
-    {
+    public ReqView() {
         this.init();
     }
 
-    public ImageIcon getIconStart()
-    {
+    public ImageIcon getIconStart() {
         return iconStart;
     }
 
-    public ImageIcon getIconStop()
-    {
+    public ImageIcon getIconStop() {
         return iconStop;
     }
 
-    public JComboBox<String> getCbUrl()
-    {
+    public JComboBox<String> getCbUrl() {
         return cbUrl;
     }
 
-    public JComboBox<HttpMethod> getCbMtd()
-    {
+    public JComboBox<HttpMethod> getCbMtd() {
         return cbMtd;
     }
 
-    public JButton getBtnStart()
-    {
+    public JButton getBtnStart() {
         return btnStart;
     }
 
-    public ReqBodyPanel getPnlBody()
-    {
+    public ReqBodyPanel getPnlBody() {
         return pnlBody;
     }
 
-    public ReqTabPanel getPnlHdr()
-    {
+    public ReqTabPanel getPnlHdr() {
         return pnlHdr;
     }
 
-    public ReqTabPanel getPnlCookie()
-    {
+    public ReqTabPanel getPnlCookie() {
         return pnlCookie;
     }
 
-    public Panel getPnlUrl()
-    {
+    public Panel getPnlUrl() {
         return pnlUrl;
     }
 
-    public JProgressBar getProgressBar()
-    {
+    public JProgressBar getProgressBar() {
         return pb;
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init()
-    {
+    private void init() {
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
         this.setBorder(BorderFactory.createEmptyBorder(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
 
         pnlUrl = new Panel();
         pnlUrl.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, 0));
-        
+
         iconStart = UIUtil.getIcon(RESTConst.ICON_START);
         iconStop = UIUtil.getIcon(RESTConst.ICON_STOP);
 
@@ -160,12 +137,12 @@ public class ReqView extends JPanel implements ActionListener
         cbMtd = new JComboBox<HttpMethod>(HttpMethod.values());
         cbMtd.setToolTipText(RESTConst.METHOD);
         cbMtd.addActionListener(this);
-        
+
         cbUrl = new JComboBox<String>();
         cbUrl.setEditable(true);
         cbUrl.setToolTipText(RESTConst.URL);
         cbUrl.requestFocus();
-        
+
         pnlUrl.add(cbMtd, BorderLayout.WEST);
         pnlUrl.add(cbUrl, BorderLayout.CENTER);
         pnlUrl.add(btnStart, BorderLayout.EAST);
@@ -193,17 +170,14 @@ public class ReqView extends JPanel implements ActionListener
     }
 
     /**
-    * 
-    * @Title: setReqView 
-    * @Description: Set HTTP request panel view 
-    * @param @param req 
-    * @return void
-    * @throws
+     * @param @param req
+     * @return void
+     * @throws
+     * @Title: setReqView
+     * @Description: Set HTTP request panel view
      */
-    public void setReqView(HttpReq req)
-    {
-        if (null == req)
-        {
+    public void setReqView(HttpReq req) {
+        if (null == req) {
             return;
         }
 
@@ -211,8 +185,7 @@ public class ReqView extends JPanel implements ActionListener
         String charset = StringUtils.EMPTY;
 
         String typeHdr = req.getHeaders().get(RESTConst.CONTENT_TYPE);
-        if (StringUtils.isNotBlank(typeHdr))
-        {
+        if (StringUtils.isNotBlank(typeHdr)) {
             ctype = StringUtils.substringBefore(typeHdr, ";");
             charset = StringUtils.substringAfter(typeHdr, "=");
         }
@@ -228,17 +201,13 @@ public class ReqView extends JPanel implements ActionListener
         // Set headers
         pnlHdr.getTabMdl().clear();
         Map<String, String> hdrs = req.getHeaders();
-        if (MapUtils.isNotEmpty(hdrs))
-        {
-            for (Entry<String, String> e : hdrs.entrySet())
-            {
-                if (RESTConst.CONTENT_TYPE.equalsIgnoreCase(e.getKey()))
-                {
+        if (MapUtils.isNotEmpty(hdrs)) {
+            for (Entry<String, String> e : hdrs.entrySet()) {
+                if (RESTConst.CONTENT_TYPE.equalsIgnoreCase(e.getKey())) {
                     continue;
                 }
 
-                if (RESTConst.COOKIE.equalsIgnoreCase(e.getKey()))
-                {
+                if (RESTConst.COOKIE.equalsIgnoreCase(e.getKey())) {
                     continue;
                 }
 
@@ -249,26 +218,22 @@ public class ReqView extends JPanel implements ActionListener
         // Set cookies
         pnlCookie.getTabMdl().clear();
         Map<String, String> cks = req.getCookies();
-        if (MapUtils.isNotEmpty(cks))
-        {
-            for (Entry<String, String> e : cks.entrySet())
-            {
+        if (MapUtils.isNotEmpty(cks)) {
+            for (Entry<String, String> e : cks.entrySet()) {
                 pnlCookie.getTabMdl().insertRow(e.getKey(), e.getValue());
             }
         }
 
     }
-    
+
     /**
-    * 
-    * @Title: reset 
-    * @Description: reset request view 
-    * @param  
-    * @return void
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: reset
+     * @Description: reset request view
      */
-    public void reset()
-    {
+    public void reset() {
         // Reset URL
         cbMtd.setSelectedIndex(0);
         cbUrl.setSelectedItem(StringUtils.EMPTY);
@@ -285,34 +250,28 @@ public class ReqView extends JPanel implements ActionListener
     }
 
     /**
-    * 
-    * @Title: bdyPerformed 
-    * @Description: Performed body panel 
-    * @param @param src 
-    * @return void
-    * @throws
+     * @param @param src
+     * @return void
+     * @throws
+     * @Title: bdyPerformed
+     * @Description: Performed body panel
      */
-    private void bdyPerformed(Object src)
-    {
-        if (!(src instanceof JComboBox))
-        {
+    private void bdyPerformed(Object src) {
+        if (!(src instanceof JComboBox)) {
             return;
         }
 
         @SuppressWarnings("unchecked")
         JComboBox<HttpMethod> cb = (JComboBox<HttpMethod>) src;
         HttpMethod mthd = (HttpMethod) cb.getSelectedItem();
-        if (HttpMethod.POST.equals(mthd) || HttpMethod.PUT.equals(mthd) || HttpMethod.DELETE.equals(mthd))
-        {
+        if (HttpMethod.POST.equals(mthd) || HttpMethod.PUT.equals(mthd) || HttpMethod.DELETE.equals(mthd)) {
             pnlBody.getCbBodyType().setSelectedIndex(0);
             pnlBody.getCbBodyType().setEnabled(true);
             pnlBody.getTxtAraBody().setEnabled(true);
             pnlBody.getTxtAraBody().setBackground(Color.white);
             pnlBody.getTxtFldPath().setEnabled(true);
             pnlBody.getBtnLoadFile().setEnabled(true);
-        }
-        else
-        {
+        } else {
             pnlBody.getCbBodyType().setSelectedIndex(0);
             pnlBody.getCbBodyType().setEnabled(false);
             pnlBody.getTxtAraBody().setEnabled(false);
@@ -325,25 +284,20 @@ public class ReqView extends JPanel implements ActionListener
     }
 
     /**
-    * 
-    * @Title: btnStartPerformed 
-    * @Description: Performed start button 
-    * @param @param src 
-    * @return void
-    * @throws
+     * @param @param src
+     * @return void
+     * @throws
+     * @Title: btnStartPerformed
+     * @Description: Performed start button
      */
-    private void btnStartPerformed(Object src)
-    {
-        if (!(src instanceof JButton))
-        {
+    private void btnStartPerformed(Object src) {
+        if (!(src instanceof JButton)) {
             return;
         }
 
         JButton btn = (JButton) src;
-        if (this.iconStop.equals(btn.getIcon()))
-        {
-            if (null == this.reqThd)
-            {
+        if (this.iconStop.equals(btn.getIcon())) {
+            if (null == this.reqThd) {
                 return;
             }
 
@@ -358,8 +312,7 @@ public class ReqView extends JPanel implements ActionListener
             return;
         }
 
-        try
-        {
+        try {
             this.btnStart.setIcon(this.iconStop);
             this.btnStart.setToolTipText(RESTConst.STOP);
             this.btnStart.setEnabled(false);
@@ -372,15 +325,12 @@ public class ReqView extends JPanel implements ActionListener
 
             this.pb.setVisible(true);
             this.pb.setIndeterminate(true);
-        }
-        catch(Throwable e)
-        {
+        } catch (Throwable e) {
             log.error("Failed to submit HTTP request.", e);
         }
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         this.bdyPerformed(e.getSource());
         this.btnStartPerformed(e.getSource());
     }

@@ -15,21 +15,20 @@
  */
 package org.wisdom.tool.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/** 
-* @ClassName: APIDoc 
-* @Description: RESTful API Document model 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APIDoc implements Serializable
-{
+/**
+ * @ClassName: APIDoc
+ * @Description: RESTful API Document model
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APIDoc implements Serializable {
     private static final long serialVersionUID = 6134938535376261029L;
 
     /**
@@ -44,29 +43,24 @@ public class APIDoc implements Serializable
     @JsonProperty("api_list")
     private List<APIItem> apiLst;
 
-    public APIDesc getDesc()
-    {
+    public APIDesc getDesc() {
         return desc;
     }
 
-    public void setDesc(APIDesc desc)
-    {
+    public void setDesc(APIDesc desc) {
         this.desc = desc;
     }
 
-    public List<APIItem> getApiLst()
-    {
+    public List<APIItem> getApiLst() {
         return apiLst;
     }
 
-    public void setApiLst(List<APIItem> apiLst)
-    {
+    public void setApiLst(List<APIItem> apiLst) {
         this.apiLst = apiLst;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APIDoc [desc=");
         builder.append(desc);

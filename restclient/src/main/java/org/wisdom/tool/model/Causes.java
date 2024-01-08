@@ -15,21 +15,20 @@
  */
 package org.wisdom.tool.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/** 
-* @ClassName: Causes 
-* @Description: Test causes 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2016-12-25 PM 8:21:08 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class Causes implements Serializable
-{
+/**
+ * @ClassName: Causes
+ * @Description: Test causes
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2016-12-25 PM 8:21:08
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class Causes implements Serializable {
     private static final long serialVersionUID = 5746546932645175308L;
 
     @JsonProperty("messages")
@@ -37,50 +36,40 @@ public class Causes implements Serializable
 
     private Integer total = 0;
 
-    public Causes()
-    {
-        if (null != causes)
-        {
+    public Causes() {
+        if (null != causes) {
             this.total = this.causes.size();
         }
     }
 
-    public Causes(Map<Integer, Cause> causes)
-    {
+    public Causes(Map<Integer, Cause> causes) {
         this.causes = causes;
-        if (null != causes)
-        {
+        if (null != causes) {
             this.total = this.causes.size();
         }
     }
 
-    public Map<Integer, Cause> getCauses()
-    {
+    public Map<Integer, Cause> getCauses() {
         return causes;
     }
 
-    public void setCauses(Map<Integer, Cause> causes)
-    {
+    public void setCauses(Map<Integer, Cause> causes) {
         this.causes = causes;
-        if (null != causes)
-        {
+        if (null != causes) {
             this.total = this.causes.size();
         }
     }
 
-    public Integer getTotal()
-    {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total)
-    {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Causes [causes=");
         builder.append(causes);

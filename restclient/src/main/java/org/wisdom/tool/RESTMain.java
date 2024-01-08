@@ -15,13 +15,6 @@
  */
 package org.wisdom.tool;
 
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wisdom.tool.apidoc.APIUtil;
@@ -36,57 +29,52 @@ import org.wisdom.tool.thread.LoadThd;
 import org.wisdom.tool.util.RESTUtil;
 import org.wisdom.tool.util.TestUtil;
 
-/** 
- * @ClassName: RESTMain 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+/**
+ * @ClassName: RESTMain
  * @Description: Rest Main
  * @Author: Yudong (Dom) Wang
- * @Email: wisdomtool@qq.com 
- * @Date: Jan 20, 2017 12:30:29 PM 
- * @Version: Wisdom RESTClient V1.3 
+ * @Email: wisdomtool@qq.com
+ * @Date: Jan 20, 2017 12:30:29 PM
+ * @Version: Wisdom RESTClient V1.3
  */
-public class RESTMain
-{
+public class RESTMain {
     private static Logger log = LogManager.getLogger(RESTMain.class);
 
-    private static WindowAdapter wa = new WindowAdapter()
-    {
-        public void windowClosing(WindowEvent e)
-        {
+    private static WindowAdapter wa = new WindowAdapter() {
+        public void windowClosing(WindowEvent e) {
             UIUtil.saveFile();
         }
     };
 
     /**
-    * 
-    * @Title      : load 
-    * @Description: Load configurations through specified file 
-    * @Param      : @param path 
-    * @Return     : void
-    * @Throws     :
+     * @Title : load
+     * @Description: Load configurations through specified file
+     * @Param : @param path
+     * @Return : void
+     * @Throws :
      */
-    public static void load(String path)
-    {
-        try
-        {
+    public static void load(String path) {
+        try {
             HttpHists hists = RESTUtil.loadHist(path);
             UIUtil.setRESTView(hists);
-        }
-        catch(Throwable e)
-        {
+        } catch (Throwable e) {
             log.error("Failed to load file.", e);
         }
     }
-    
+
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    public static void init()
-    {
+    public static void init() {
         MenuBarView mbv = new MenuBarView();
         JFrame frame = new JFrame(RESTConst.REST_CLIENT_VERSION);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,15 +89,13 @@ public class RESTMain
     }
 
     /**
-    * 
-    * @Title      : openView 
-    * @Description: Open REST view 
-    * @Param      : @param path open view through specified file
-    * @Return     : void
-    * @Throws     :
+     * @Title : openView
+     * @Description: Open REST view
+     * @Param : @param path open view through specified file
+     * @Return : void
+     * @Throws :
      */
-    public static void openView(String path)
-    {
+    public static void openView(String path) {
         RESTCache.setCLIRunning(false);
         LoadThd loader = new LoadThd(path);
         loader.setName(RESTConst.LOAD_THREAD);
@@ -117,88 +103,71 @@ public class RESTMain
     }
 
     /**
-    * 
-    * @Title: closeView 
-    * @Description: Close REST view  
-    * @param  
-    * @return void
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: closeView
+     * @Description: Close REST view
      */
-    public static void closeView()
-    {
+    public static void closeView() {
         UIUtil.saveFile();
         System.exit(0);
     }
 
     /**
-    * 
-    * @Title      : launch 
-    * @Description: - gui     -- launch GUI
-    *             : - apitest -- test API
-    *             : - apidoc  -- create API doc
-    *             : - help    -- display help
-    * @Param      : @param actions
-    * @Return     : void
-    * @Throws     :
+     * @Title : launch
+     * @Description: - gui     -- launch GUI
+     * : - apitest -- test API
+     * : - apidoc  -- create API doc
+     * : - help    -- display help
+     * @Param : @param actions
+     * @Return : void
+     * @Throws :
      */
-    public static void launch(String[] actions)
-    {
-        if (null == actions || actions.length < 1)
-        {
+    public static void launch(String[] actions) {
+        if (null == actions || actions.length < 1) {
             openView(RESTConst.EMPTY);
             return;
         }
 
         RESTUtil.closeSplashScreen();
         String path = RESTConst.EMPTY;
-        if (actions.length > 1)
-        {
+        if (actions.length > 1) {
             path = actions[1];
         }
 
-        if (RESTConst.OPTION_HELP.equalsIgnoreCase(actions[0]))
-        {
+        if (RESTConst.OPTION_HELP.equalsIgnoreCase(actions[0])) {
             RESTUtil.printUsage();
             System.exit(0);
-        }
-        else if (RESTConst.OPTION_DOC.equalsIgnoreCase(actions[0]))
-        {
+        } else if (RESTConst.OPTION_DOC.equalsIgnoreCase(actions[0])) {
             RESTCache.setCLIRunning(true);
             APIDoc doc = APIUtil.loadDoc(path);
             APIUtil.apiDoc(doc);
             System.out.println(RESTConst.MSG_APIDOC);
             System.exit(0);
-        }
-        else if (RESTConst.OPTION_TEST.equalsIgnoreCase(actions[0]))
-        {
+        } else if (RESTConst.OPTION_TEST.equalsIgnoreCase(actions[0])) {
             RESTCache.setCLIRunning(true);
             HttpHists hists = RESTUtil.loadHist(path);
             TestUtil.apiTest(hists);
             System.out.println(RESTConst.MSG_REPORT);
             System.exit(0);
-        }
-        else if (RESTConst.OPTION_GUI.equalsIgnoreCase(actions[0]))
-        {
+        } else if (RESTConst.OPTION_GUI.equalsIgnoreCase(actions[0])) {
             openView(path);
-        }
-        else
-        {
+        } else {
             RESTUtil.printUsage();
             System.exit(0);
         }
     }
-    
+
     /**
-    * 
-    * @Title      : main 
-    * @Description: REST Main
-    *             : 
-    * @Param      : @param args 
-    * @Return     : void
-    * @Throws     :
+     * @Title : main
+     * @Description: REST Main
+     * :
+     * @Param : @param args
+     * @Return : void
+     * @Throws :
      */
-    public static void main(String[] args)
-    {        
+    public static void main(String[] args) {
         RESTMain.launch(args);
     }
 

@@ -16,71 +16,55 @@
 
 package org.wisdom.tool.gui.json;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
 
-/** 
-* @Class Name : CheckBoxTreeLabel 
-* @Description: Tree label for check box 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Feb 26, 2018 4:43:42 PM 
-* @Version    : Wisdom RESTClient V1.3 
-*/
-public class CheckBoxTreeLabel extends JLabel
-{
+/**
+ * @Class Name : CheckBoxTreeLabel
+ * @Description: Tree label for check box
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Feb 26, 2018 4:43:42 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class CheckBoxTreeLabel extends JLabel {
     private static final long serialVersionUID = -32204214662253992L;
 
     private boolean selected;
 
     private boolean hasFocus;
 
-    public CheckBoxTreeLabel()
-    {
+    public CheckBoxTreeLabel() {
     }
 
     @Override
-    public void setBackground(Color color)
-    {
-        if (color instanceof ColorUIResource)
-        {
+    public void setBackground(Color color) {
+        if (color instanceof ColorUIResource) {
             color = null;
         }
         super.setBackground(color);
     }
 
     @Override
-    public void paint(Graphics g)
-    {
+    public void paint(Graphics g) {
         String str = getText();
-        if (null != str && !str.isEmpty())
-        {
-            if (selected)
-            {
+        if (null != str && !str.isEmpty()) {
+            if (selected) {
                 g.setColor(UIManager.getColor("Tree.selectionBackground"));
-            }
-            else
-            {
+            } else {
                 g.setColor(UIManager.getColor("Tree.textBackground"));
             }
 
             Dimension d = getPreferredSize();
             int imageOffset = 0;
             Icon currentIcon = getIcon();
-            if (null != currentIcon)
-            {
+            if (null != currentIcon) {
                 imageOffset = currentIcon.getIconWidth() + Math.max(0, getIconTextGap() - 1);
             }
 
             g.fillRect(imageOffset, 0, d.width - 1 - imageOffset, d.height);
-            if (hasFocus)
-            {
+            if (hasFocus) {
                 g.setColor(UIManager.getColor("Tree.selectionBorderColor"));
                 g.drawRect(imageOffset, 0, d.width - 1 - imageOffset, d.height - 1);
             }
@@ -89,23 +73,19 @@ public class CheckBoxTreeLabel extends JLabel
     }
 
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
-        if (null != d)
-        {
+        if (null != d) {
             d = new Dimension(d.width + 3, d.height);
         }
         return d;
     }
 
-    public void setSelected(boolean selected)
-    {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    public void setFocus(boolean hasFocus)
-    {
+    public void setFocus(boolean hasFocus) {
         this.hasFocus = hasFocus;
     }
 }

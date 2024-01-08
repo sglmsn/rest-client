@@ -15,24 +15,23 @@
  */
 package org.wisdom.tool.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.wisdom.tool.apidoc.APIUtil;
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @ClassName: APIReq 
-* @Description: RESTful API request 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APIReq implements Serializable
-{
+import java.io.Serializable;
+
+/**
+ * @ClassName: APIReq
+ * @Description: RESTful API request
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APIReq implements Serializable {
     private static final long serialVersionUID = 1681002160195520948L;
 
     /**
@@ -50,24 +49,18 @@ public class APIReq implements Serializable
      */
     private String example;
 
-    public APIReq()
-    {
+    public APIReq() {
     }
-    
-    public APIReq(HttpReq req)
-    {
-        if (null == req)
-        {
+
+    public APIReq(HttpReq req) {
+        if (null == req) {
             return;
         }
 
-        if (StringUtils.isEmpty(req.getBody()))
-        {
+        if (StringUtils.isEmpty(req.getBody())) {
             this.model = RESTConst.NA;
             this.example = RESTConst.NA;
-        }
-        else
-        {
+        } else {
             this.model = StringEscapeUtils.escapeHtml(RESTUtil.toModel(req.getBody()));
             this.example = StringEscapeUtils.escapeHtml(RESTUtil.format(req.getBody()));
         }
@@ -75,39 +68,32 @@ public class APIReq implements Serializable
         this.header = APIUtil.headerStr(req.getHeaders());
     }
 
-    public String getHeader()
-    {
+    public String getHeader() {
         return header;
     }
 
-    public void setHeader(String header)
-    {
+    public void setHeader(String header) {
         this.header = header;
     }
 
-    public String getModel()
-    {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(String model)
-    {
+    public void setModel(String model) {
         this.model = model;
     }
 
-    public String getExample()
-    {
+    public String getExample() {
         return example;
     }
 
-    public void setExample(String example)
-    {
+    public void setExample(String example) {
         this.example = example;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APIReq [header=");
         builder.append(header);
@@ -118,5 +104,5 @@ public class APIReq implements Serializable
         builder.append("]");
         return builder.toString();
     }
-   
+
 }

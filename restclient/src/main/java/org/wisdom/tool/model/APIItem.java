@@ -15,21 +15,20 @@
  */
 package org.wisdom.tool.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/** 
-* @ClassName: APIItem 
-* @Description: RESTful API item
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APIItem implements Serializable
-{
+/**
+ * @ClassName: APIItem
+ * @Description: RESTful API item
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APIItem implements Serializable {
     private static final long serialVersionUID = 6748689358510850564L;
 
     /**
@@ -50,50 +49,41 @@ public class APIItem implements Serializable
     @JsonProperty("api_response")
     private List<APIRsp> repLst;
 
-    public APIItem()
-    {
+    public APIItem() {
     }
-    
-    public APIItem(APISum sumry, APIReq req, List<APIRsp> repLst)
-    {
+
+    public APIItem(APISum sumry, APIReq req, List<APIRsp> repLst) {
         this.sumry = sumry;
         this.req = req;
         this.repLst = repLst;
     }
 
-    public APISum getSumry()
-    {
+    public APISum getSumry() {
         return sumry;
     }
 
-    public void setSumry(APISum sumry)
-    {
+    public void setSumry(APISum sumry) {
         this.sumry = sumry;
     }
 
-    public APIReq getReq()
-    {
+    public APIReq getReq() {
         return req;
     }
 
-    public void setReq(APIReq req)
-    {
+    public void setReq(APIReq req) {
         this.req = req;
     }
 
-    public List<APIRsp> getRepLst()
-    {
+    public List<APIRsp> getRepLst() {
         return repLst;
     }
 
-    public void setRepLst(List<APIRsp> repLst)
-    {
+    public void setRepLst(List<APIRsp> repLst) {
         this.repLst = repLst;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APIItem [sumry=");
         builder.append(sumry);

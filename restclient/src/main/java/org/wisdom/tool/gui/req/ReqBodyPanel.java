@@ -15,28 +15,6 @@
  */
 package org.wisdom.tool.gui.req;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Vector;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import org.apache.commons.lang.StringUtils;
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.gui.util.UIUtil;
@@ -44,16 +22,24 @@ import org.wisdom.tool.model.BodyType;
 import org.wisdom.tool.model.Charsets;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @ClassName: ReqBodyPanel 
-* @Description: Request body panel 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class ReqBodyPanel extends JPanel implements ActionListener
-{
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
+
+/**
+ * @ClassName: ReqBodyPanel
+ * @Description: Request body panel
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class ReqBodyPanel extends JPanel implements ActionListener {
     private static final long serialVersionUID = 5120996065049850894L;
 
     private JLabel lblBodyType = null;
@@ -92,89 +78,72 @@ public class ReqBodyPanel extends JPanel implements ActionListener
 
     private JMenuItem miClr = null;
 
-    private MouseAdapter ma = new MouseAdapter()
-    {
-        private void popup(MouseEvent e)
-        {
+    private MouseAdapter ma = new MouseAdapter() {
+        private void popup(MouseEvent e) {
             txtAraBody.requestFocus();
             miPst.setEnabled(true);
-            if (!txtAraBody.isEnabled() || StringUtils.isBlank(txtAraBody.getText()))
-            {
+            if (!txtAraBody.isEnabled() || StringUtils.isBlank(txtAraBody.getText())) {
                 miFmt.setEnabled(false);
                 miCpy.setEnabled(false);
                 miClr.setEnabled(false);
-            }
-            else
-            {
+            } else {
                 miFmt.setEnabled(true);
                 miCpy.setEnabled(true);
                 miClr.setEnabled(true);
             }
 
-            if (e.isPopupTrigger())
-            {
+            if (e.isPopupTrigger()) {
                 pm.show(e.getComponent(), e.getX(), e.getY());
             }
         }
 
         @Override
-        public void mousePressed(MouseEvent e)
-        {
+        public void mousePressed(MouseEvent e) {
             this.popup(e);
         }
 
         @Override
-        public void mouseReleased(MouseEvent e)
-        {
+        public void mouseReleased(MouseEvent e) {
             this.popup(e);
         }
     };
-    
-    public ReqBodyPanel()
-    {
+
+    public ReqBodyPanel() {
         this.init();
     }
 
-    public JComboBox<String> getCbContentType()
-    {
+    public JComboBox<String> getCbContentType() {
         return cbContentType;
     }
 
-    public JComboBox<String> getCbCharset()
-    {
+    public JComboBox<String> getCbCharset() {
         return cbCharset;
     }
 
-    public JTextArea getTxtAraBody()
-    {
+    public JTextArea getTxtAraBody() {
         return txtAraBody;
     }
 
-    public JTextField getTxtFldPath()
-    {
+    public JTextField getTxtFldPath() {
         return txtFldPath;
     }
 
-    public JComboBox<String> getCbBodyType()
-    {
+    public JComboBox<String> getCbBodyType() {
         return cbBodyType;
     }
 
-    public JButton getBtnLoadFile()
-    {
+    public JButton getBtnLoadFile() {
         return btnLoadFile;
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init()
-    {
+    private void init() {
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, 0));
 
         Vector<String> vtContType = new Vector<String>();
@@ -190,7 +159,7 @@ public class ReqBodyPanel extends JPanel implements ActionListener
         vtContType.add("application/atom+xml");
         vtContType.add("application/svg+xml");
         vtContType.add("application/octet-stream");
-        
+
         Vector<String> vtChrset = new Vector<String>();
         vtChrset.add(Charsets.UTF_8.getCname());
         vtChrset.add(Charsets.US_ASCII.getCname());
@@ -291,7 +260,7 @@ public class ReqBodyPanel extends JPanel implements ActionListener
         pnlLoadFile.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, 0));
         pnlLoadFile.add(txtFldPath, BorderLayout.CENTER);
         pnlLoadFile.add(btnLoadFile, BorderLayout.EAST);
-        
+
         pnlSouth = new JPanel();
         pnlSouth.setLayout(new BorderLayout());
         pnlSouth.add(pnlLoadFile);
@@ -301,25 +270,20 @@ public class ReqBodyPanel extends JPanel implements ActionListener
         fc = new JFileChooser();
     }
 
-    private void bdyPerformed(Object src)
-    {
-        if (!(src instanceof JComboBox))
-        {
+    private void bdyPerformed(Object src) {
+        if (!(src instanceof JComboBox)) {
             return;
         }
 
         @SuppressWarnings("unchecked")
         JComboBox<String> cb = (JComboBox<String>) src;
         String bodyType = (String) cb.getSelectedItem();
-        if (BodyType.STRING.getType().equals(bodyType))
-        {
+        if (BodyType.STRING.getType().equals(bodyType)) {
             pnlSouth.setVisible(false);
             txtAraBody.setEnabled(true);
             txtAraBody.setBackground(Color.white);
             txtAraBody.requestFocus();
-        }
-        else
-        {
+        } else {
             pnlSouth.setVisible(true);
             txtFldPath.requestFocus();
             txtAraBody.setEnabled(false);
@@ -327,77 +291,63 @@ public class ReqBodyPanel extends JPanel implements ActionListener
         }
     }
 
-    private void btnLoadPerformed(Object src)
-    {
-        if (!(src instanceof JButton))
-        {
+    private void btnLoadPerformed(Object src) {
+        if (!(src instanceof JButton)) {
             return;
         }
         JButton btn = (JButton) src;
-        if (!RESTConst.BROWSE.equals(btn.getName()))
-        {
+        if (!RESTConst.BROWSE.equals(btn.getName())) {
             return;
         }
 
         String content = UIUtil.openFile(this, fc);
-        if (StringUtils.isEmpty(content))
-        {
+        if (StringUtils.isEmpty(content)) {
             return;
         }
 
         txtAraBody.setText(content);
     }
 
-    private void menuPerformed(Object src)
-    {
-        if (!(src instanceof JMenuItem))
-        {
+    private void menuPerformed(Object src) {
+        if (!(src instanceof JMenuItem)) {
             return;
         }
 
         JMenuItem item = (JMenuItem) (src);
-        if (RESTConst.FORMAT.equals(item.getName()))
-        {
+        if (RESTConst.FORMAT.equals(item.getName())) {
             String body = RESTUtil.format(txtAraBody.getText());
             txtAraBody.setText(body);
             return;
         }
 
-        if (RESTConst.COPY.equals(item.getName()))
-        {
+        if (RESTConst.COPY.equals(item.getName())) {
             StringSelection ss = null;
             String seltxt = txtAraBody.getSelectedText();
-            if (StringUtils.isNotBlank(seltxt))
-            {
+            if (StringUtils.isNotBlank(seltxt)) {
                 ss = new StringSelection(seltxt);
-            }
-            else
-            {
+            } else {
                 ss = new StringSelection(txtAraBody.getText());
             }
 
             Toolkit.getDefaultToolkit()
-                   .getSystemClipboard()
-                   .setContents(ss, null);
+                    .getSystemClipboard()
+                    .setContents(ss, null);
 
             return;
         }
 
-        if (RESTConst.PASTE.equals(item.getName()))
-        {
+        if (RESTConst.PASTE.equals(item.getName())) {
             txtAraBody.paste();
             return;
         }
 
-        if (RESTConst.CLEAR.equals(item.getName()))
-        {
+        if (RESTConst.CLEAR.equals(item.getName())) {
             txtAraBody.setText(StringUtils.EMPTY);
             return;
         }
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         this.bdyPerformed(e.getSource());
         this.btnLoadPerformed(e.getSource());
         this.menuPerformed(e.getSource());

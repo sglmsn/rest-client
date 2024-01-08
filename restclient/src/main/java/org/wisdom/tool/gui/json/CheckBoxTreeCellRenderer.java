@@ -16,35 +16,27 @@
 
 package org.wisdom.tool.gui.json;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.tree.TreeCellRenderer;
+import java.awt.*;
 
-/** 
-* @Class Name : CheckBoxTreeCellRenderer 
-* @Description: Tree cell renderer for check box 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Feb 26, 2018 4:54:49 PM 
-* @Version    : Wisdom RESTClient V1.3 
-*/
-public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
-{
+/**
+ * @Class Name : CheckBoxTreeCellRenderer
+ * @Description: Tree cell renderer for check box
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Feb 26, 2018 4:54:49 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer {
     private static final long serialVersionUID = -4024170383791509257L;
 
     protected JCheckBox check;
 
     protected CheckBoxTreeLabel label;
 
-    public CheckBoxTreeCellRenderer()
-    {
+    public CheckBoxTreeCellRenderer() {
         setLayout(null);
         add(check = new JCheckBox());
         add(label = new CheckBoxTreeLabel());
@@ -52,14 +44,13 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
         label.setForeground(UIManager.getColor("Tree.textForeground"));
     }
 
-    public Component getTreeCellRendererComponent(JTree tree, 
+    public Component getTreeCellRendererComponent(JTree tree,
                                                   Object value,
-                                                  boolean selected, 
-                                                  boolean expanded, 
-                                                  boolean leaf, 
+                                                  boolean selected,
+                                                  boolean expanded,
+                                                  boolean leaf,
                                                   int row,
-                                                  boolean hasFocus)
-    {
+                                                  boolean hasFocus) {
         String stringValue = tree.convertValueToText(value, selected, expanded, leaf, row, hasFocus);
         setEnabled(tree.isEnabled());
 
@@ -69,24 +60,18 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
         label.setSelected(selected);
         label.setFocus(hasFocus);
 
-        if (leaf)
-        {
+        if (leaf) {
             label.setIcon(UIManager.getIcon("Tree.leafIcon"));
-        }
-        else if (expanded)
-        {
+        } else if (expanded) {
             label.setIcon(UIManager.getIcon("Tree.openIcon"));
-        }
-        else
-        {
+        } else {
             label.setIcon(UIManager.getIcon("Tree.closedIcon"));
         }
         return this;
     }
 
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension dCheck = check.getPreferredSize();
         Dimension dLabel = label.getPreferredSize();
         return new Dimension(dCheck.width + dLabel.width,
@@ -94,20 +79,16 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
     }
 
     @Override
-    public void doLayout()
-    {
+    public void doLayout() {
         Dimension dCheck = check.getPreferredSize();
         Dimension dLabel = label.getPreferredSize();
 
         int yCheck = 0;
         int yLabel = 0;
 
-        if (dCheck.height < dLabel.height)
-        {
+        if (dCheck.height < dLabel.height) {
             yCheck = (dLabel.height - dCheck.height) / 2;
-        }
-        else
-        {
+        } else {
             yLabel = (dCheck.height - dLabel.height) / 2;
         }
 
@@ -118,10 +99,8 @@ public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer
     }
 
     @Override
-    public void setBackground(Color color)
-    {
-        if (color instanceof ColorUIResource)
-        {
+    public void setBackground(Color color) {
+        if (color instanceof ColorUIResource) {
             color = null;
         }
         super.setBackground(color);

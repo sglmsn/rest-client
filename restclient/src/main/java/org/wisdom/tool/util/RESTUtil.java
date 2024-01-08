@@ -15,23 +15,16 @@
  */
 package org.wisdom.tool.util;
 
-import java.awt.SplashScreen;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
+import net.htmlparser.jericho.Source;
+import net.htmlparser.jericho.SourceFormatter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
@@ -56,49 +49,48 @@ import org.wisdom.tool.model.HttpHists;
 import org.wisdom.tool.model.HttpRsp;
 import org.wisdom.tool.model.Results;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
-import net.htmlparser.jericho.Source;
-import net.htmlparser.jericho.SourceFormatter;
-
-/** 
-* @ClassName: RESTUtil 
-* @Description: Rest utility 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RESTUtil
-{
+/**
+ * @ClassName: RESTUtil
+ * @Description: Rest utility
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RESTUtil {
     private static Logger log = LogManager.getLogger(RESTUtil.class);
-    
+
     /**
-    * 
-    * @Title: toOject 
-    * @Description: Json file to object 
-    * @param @param jf
-    * @param @param clas
-    * @param @return     
-    * @return T    
-    * @throws
+     * @param @param  jf
+     * @param @param  clas
+     * @param @return
+     * @return T
+     * @throws
+     * @Title: toOject
+     * @Description: Json file to object
      */
-    public static <T> T toOject(File jf, Class<T> clas)
-    {
+    public static <T> T toOject(File jf, Class<T> clas) {
         ObjectMapper mapper = new ObjectMapper();
-        try
-        {
+        try {
             return (T) mapper.readValue(jf, clas);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Change json file [" + jf.getName() + "] to object failed.", e);
         }
 
@@ -106,50 +98,39 @@ public class RESTUtil
     }
 
     /**
-    * 
-    *
-    * @Title: toOject 
-    * @Description: Json file input stream to object  
-    * @param @param is
-    * @param @param clas
-    * @param @return 
-    * @return T
-    * @throws
+     * @param @param  is
+     * @param @param  clas
+     * @param @return
+     * @return T
+     * @throws
+     * @Title: toOject
+     * @Description: Json file input stream to object
      */
-    public static <T> T toOject(InputStream is, Class<T> clas)
-    {
+    public static <T> T toOject(InputStream is, Class<T> clas) {
         ObjectMapper mapper = new ObjectMapper();
-        try
-        {
+        try {
             return (T) mapper.readValue(is, clas);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Change json file input stream to object failed.", e);
         }
 
         return null;
     }
-    
+
     /**
-    * 
-    * @Title: toOject 
-    * @Description: Json content to object 
-    * @param @param content
-    * @param @param clas
-    * @param @return     
-    * @return T    
-    * @throws
+     * @param @param  content
+     * @param @param  clas
+     * @param @return
+     * @return T
+     * @throws
+     * @Title: toOject
+     * @Description: Json content to object
      */
-    public static <T> T toOject(String content, Class<T> clas)
-    {
+    public static <T> T toOject(String content, Class<T> clas) {
         ObjectMapper mapper = new ObjectMapper();
-        try
-        {
+        try {
             return (T) mapper.readValue(content, clas);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Change json text [" + content + "] to object failed.", e);
         }
 
@@ -157,23 +138,18 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: tojsonText 
-    * @Description: Instance to json string 
-    * @param @param instance
-    * @param @return     
-    * @return String    
-    * @throws
+     * @param @param  instance
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: tojsonText
+     * @Description: Instance to json string
      */
-    public static <T> String tojsonText(T instance)
-    {
+    public static <T> String tojsonText(T instance) {
         ObjectMapper mapper = new ObjectMapper();
-        try
-        {
+        try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(instance);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Write object [" + instance + "] as json string failed.", e);
         }
 
@@ -181,89 +157,71 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: toJsonFile 
-    * @Description: Instance to json file 
-    * @param @param jf
-    * @param @param instance
-    * @param @return     
-    * @return void    
-    * @throws
+     * @param @param  jf
+     * @param @param  instance
+     * @param @return
+     * @return void
+     * @throws
+     * @Title: toJsonFile
+     * @Description: Instance to json file
      */
-    public static <T> void toJsonFile(File jf, T instance)
-    {
+    public static <T> void toJsonFile(File jf, T instance) {
         ObjectMapper mapper = new ObjectMapper();
-        try
-        {
+        try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(jf, instance);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Write object [" + instance + "] as json file [" + jf.getName() + "] failed.", e);
         }
     }
-    
+
     /**
-    * 
-    * @Title: getComparator 
-    * @Description: New a comparator 
-    * @param @return 
-    * @return Comparator<String>
-    * @throws
+     * @param @return
+     * @return Comparator<String>
+     * @throws
+     * @Title: getComparator
+     * @Description: New a comparator
      */
-    private static Comparator<String> getComparator()
-    {
-        Comparator<String> c = new Comparator<String>()
-        {
-            public int compare(String o1, String o2)
-            {
+    private static Comparator<String> getComparator() {
+        Comparator<String> c = new Comparator<String>() {
+            public int compare(String o1, String o2) {
                 return o1.compareTo(o2);
             }
         };
-        
+
         return c;
     }
-    
+
     /**
-    * 
-    * @Title: sort 
-    * @Description: Sort JSON element 
-    * @param @param e 
-    * @return void
-    * @throws
+     * @param @param e
+     * @return void
+     * @throws
+     * @Title: sort
+     * @Description: Sort JSON element
      */
-    public static void sort(JsonElement e)
-    {
-        if (e.isJsonNull())
-        {
+    public static void sort(JsonElement e) {
+        if (e.isJsonNull()) {
             return;
         }
 
-        if (e.isJsonPrimitive())
-        {
+        if (e.isJsonPrimitive()) {
             return;
         }
 
-        if (e.isJsonArray())
-        {
+        if (e.isJsonArray()) {
             JsonArray a = e.getAsJsonArray();
-            for (Iterator<JsonElement> it = a.iterator(); it.hasNext();)
-            {
+            for (Iterator<JsonElement> it = a.iterator(); it.hasNext(); ) {
                 sort(it.next());
             }
             return;
         }
 
-        if (e.isJsonObject())
-        {
+        if (e.isJsonObject()) {
             Map<String, JsonElement> tm = new TreeMap<String, JsonElement>(getComparator());
-            for (Entry<String, JsonElement> en : e.getAsJsonObject().entrySet())
-            {
+            for (Entry<String, JsonElement> en : e.getAsJsonObject().entrySet()) {
                 tm.put(en.getKey(), en.getValue());
             }
 
-            for (Entry<String, JsonElement> en : tm.entrySet())
-            {
+            for (Entry<String, JsonElement> en : tm.entrySet()) {
                 e.getAsJsonObject().remove(en.getKey());
                 e.getAsJsonObject().add(en.getKey(), en.getValue());
                 sort(en.getValue());
@@ -271,18 +229,16 @@ public class RESTUtil
             return;
         }
     }
-    
+
     /**
-    * 
-    * @Title: sort 
-    * @Description: Sort JSON string by key 
-    * @param @param jsonStr
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  jsonStr
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: sort
+     * @Description: Sort JSON string by key
      */
-    public static String sort(String jsonStr)
-    {
+    public static String sort(String jsonStr) {
         Gson g = new GsonBuilder().setPrettyPrinting().create();
         JsonParser p = new JsonParser();
         JsonElement e = p.parse(jsonStr);
@@ -291,19 +247,17 @@ public class RESTUtil
 
         return g.toJson(e);
     }
-        
+
     /**
-    * 
-    * @Title: compare 
-    * @Description: Compare two json text 
-    * @param @param jtxt1
-    * @param @param jtxt2
-    * @param @return     
-    * @return boolean    
-    * @throws
+     * @param @param  jtxt1
+     * @param @param  jtxt2
+     * @param @return
+     * @return boolean
+     * @throws
+     * @Title: compare
+     * @Description: Compare two json text
      */
-    public static boolean compare(String jstr1, String jstr2)
-    {
+    public static boolean compare(String jstr1, String jstr2) {
         JsonParser p = new JsonParser();
         JsonElement e1 = p.parse(jstr1);
         JsonElement e2 = p.parse(jstr2);
@@ -315,33 +269,26 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: isJson 
-    * @Description: Check if it is JSON string 
-    * @param @param content
-    * @param @return 
-    * @return boolean
-    * @throws
+     * @param @param  content
+     * @param @return
+     * @return boolean
+     * @throws
+     * @Title: isJson
+     * @Description: Check if it is JSON string
      */
-    public static boolean isJson(String json)
-    {
-        if (StringUtils.isEmpty(json))
-        {
+    public static boolean isJson(String json) {
+        if (StringUtils.isEmpty(json)) {
             return false;
         }
 
-        if (!StringUtils.contains(json, "{"))
-        {
+        if (!StringUtils.contains(json, "{")) {
             return false;
         }
 
         JsonParser p = new JsonParser();
-        try
-        {
+        try {
             p.parse(json);
-        }
-        catch(JsonSyntaxException e)
-        {
+        } catch (JsonSyntaxException e) {
             log.debug("Bad json format: " + lines(1) + json);
             return false;
         }
@@ -350,27 +297,21 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: isXml 
-    * @Description: Check if it is XML string  
-    * @param @param xml
-    * @param @return 
-    * @return boolean
-    * @throws
+     * @param @param  xml
+     * @param @return
+     * @return boolean
+     * @throws
+     * @Title: isXml
+     * @Description: Check if it is XML string
      */
-    public static boolean isXml(String xml)
-    {
-        if (StringUtils.isEmpty(xml))
-        {
+    public static boolean isXml(String xml) {
+        if (StringUtils.isEmpty(xml)) {
             return false;
         }
 
-        try
-        {
+        try {
             DocumentHelper.parseText(xml);
-        }
-        catch(DocumentException e)
-        {
+        } catch (DocumentException e) {
             log.debug("Bad xml format: " + lines(1) + xml);
             return false;
         }
@@ -379,23 +320,19 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: isHtml 
-    * @Description: Check if it is HTML string 
-    * @param @param html
-    * @param @return 
-    * @return boolean
-    * @throws
+     * @param @param  html
+     * @param @return
+     * @return boolean
+     * @throws
+     * @Title: isHtml
+     * @Description: Check if it is HTML string
      */
-    public static boolean isHtml(String html)
-    {
-        if (StringUtils.isEmpty(html))
-        {
+    public static boolean isHtml(String html) {
+        if (StringUtils.isEmpty(html)) {
             return false;
         }
 
-        if (StringUtils.containsIgnoreCase(html, RESTConst.HTML_LABEL))
-        {
+        if (StringUtils.containsIgnoreCase(html, RESTConst.HTML_LABEL)) {
             return true;
         }
 
@@ -403,18 +340,15 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: prettyJson 
-    * @Description: Pretty JSON formatter 
-    * @param @param json
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  json
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: prettyJson
+     * @Description: Pretty JSON formatter
      */
-    public static String prettyJson(String json)
-    {
-        if (StringUtils.isBlank(json))
-        {
+    public static String prettyJson(String json) {
+        if (StringUtils.isBlank(json)) {
             return StringUtils.EMPTY;
         }
 
@@ -426,25 +360,21 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: prettyXml 
-    * @Description: Pretty XML formatter  
-    * @param @param xml
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  xml
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: prettyXml
+     * @Description: Pretty XML formatter
      */
-    public static String prettyXml(String xml)
-    {
+    public static String prettyXml(String xml) {
         XMLWriter xw = null;
 
-        if (StringUtils.isBlank(xml))
-        {
+        if (StringUtils.isBlank(xml)) {
             return StringUtils.EMPTY;
         }
 
-        try
-        {
+        try {
             Document doc = DocumentHelper.parseText(xml);
 
             // Format
@@ -456,13 +386,9 @@ public class RESTUtil
             xw = new XMLWriter(sw, format);
             xw.write(doc);
             return sw.toString();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Failed to format xml.", e);
-        } 
-        finally
-        {
+        } finally {
             close(xw);
         }
 
@@ -470,68 +396,56 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: prettyHtml 
-    * @Description: Pretty HTML formatter   
-    * @param @param html
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  html
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: prettyHtml
+     * @Description: Pretty HTML formatter
      */
-    public static String prettyHtml(String html)
-    {
-        if (StringUtils.isBlank(html))
-        {
+    public static String prettyHtml(String html) {
+        if (StringUtils.isBlank(html)) {
             return StringUtils.EMPTY;
         }
 
-        try
-        {
+        try {
             // Writer
             StringWriter sw = new StringWriter();
             new SourceFormatter(new Source(html))
-            .setIndentString("    ")
-            .setTidyTags(true)
-            .setCollapseWhiteSpace(true)
-            .writeTo(sw);
+                    .setIndentString("    ")
+                    .setTidyTags(true)
+                    .setCollapseWhiteSpace(true)
+                    .writeTo(sw);
             return sw.toString();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Failed to format html.", e);
-        } 
+        }
 
         return StringUtils.EMPTY;
     }
 
     /**
-    * 
-    * @Title: format 
-    * @Description: Format text 
-    * @param @param txt
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  txt
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: format
+     * @Description: Format text
      */
-    public static String format(String txt)
-    {
-        if (StringUtils.isBlank(txt))
-        {
+    public static String format(String txt) {
+        if (StringUtils.isBlank(txt)) {
             return StringUtils.EMPTY;
         }
 
-        if (isJson(txt))
-        {
+        if (isJson(txt)) {
             return prettyJson(txt);
         }
 
-        if (isHtml(txt))
-        {
+        if (isHtml(txt)) {
             return prettyHtml(txt);
         }
 
-        if (isXml(txt))
-        {
+        if (isXml(txt)) {
             return prettyXml(txt);
         }
 
@@ -539,172 +453,143 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: sleep 
-    * @Description: Thread sleep
-    * @param @param millis 
-    * @return void
-    * @throws
+     * @param @param millis
+     * @return void
+     * @throws
+     * @Title: sleep
+     * @Description: Thread sleep
      */
-    public static void sleep(long millis)
-    {
-        try
-        {
+    public static void sleep(long millis) {
+        try {
             Thread.sleep(millis);
-        }
-        catch(InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             log.error("Sleep interrupted.", e);
         }
     }
 
     /**
-    * 
-    * @Title: lines 
-    * @Description: Get lines 
-    * @param @param num
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  num
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: lines
+     * @Description: Get lines
      */
-    public static String lines(int num)
-    {
+    public static String lines(int num) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < num; i++)
-        {
+        for (int i = 0; i < num; i++) {
             sb.append("\r\n");
         }
         return sb.toString();
     }
-    
+
     /**
-    * 
-    * @Title: nowDate 
-    * @Description: Get now date 
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: nowDate
+     * @Description: Get now date
      */
-    public static String nowDate()
-    {
+    public static String nowDate() {
         SimpleDateFormat fmat = new SimpleDateFormat(RESTConst.DATE_FORMAT);
         return fmat.format(new Date());
     }
 
     /**
-    * 
-    * @Title: getInputStream 
-    * @Description: get input stream 
-    * @param @param path
-    * @param @return 
-    * @return InputStream
-    * @throws
+     * @param @param  path
+     * @param @return
+     * @return InputStream
+     * @throws
+     * @Title: getInputStream
+     * @Description: get input stream
      */
-    public static InputStream getInputStream(String path)
-    {
+    public static InputStream getInputStream(String path) {
         return RESTUtil.class.getClassLoader().getResourceAsStream(path);
     }
 
     /**
-    * 
-    * @Title: close 
-    * @Description: Close input stream 
-    * @param @param is 
-    * @return void
-    * @throws
+     * @param @param is
+     * @return void
+     * @throws
+     * @Title: close
+     * @Description: Close input stream
      */
-    public static void close(InputStream is)
-    {
-        if (null == is)
-        {
+    public static void close(InputStream is) {
+        if (null == is) {
             return;
         }
-        try
-        {
+        try {
             is.close();
             is = null;
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             log.error("Failed to close input stream", e);
         }
     }
 
     /**
-    * 
-    * @Title: getCause 
-    * @Description: Get test failure/error cause 
-    * @param @param code
-    * @param @param args
-    * @param @return 
-    * @return Cause
-    * @throws
+     * @param @param  code
+     * @param @param  args
+     * @param @return
+     * @return Cause
+     * @throws
+     * @Title: getCause
+     * @Description: Get test failure/error cause
      */
-    public static Cause getCause(ErrCode code, String... args)
-    {
+    public static Cause getCause(ErrCode code, String... args) {
         Cause c = new Cause();
-        if (null == code)
-        {
+        if (null == code) {
             return c;
         }
 
         Causes cs = RESTCache.getCauses();
-        if (null == cs || MapUtils.isEmpty(cs.getCauses()))
-        {
+        if (null == cs || MapUtils.isEmpty(cs.getCauses())) {
             return c;
         }
 
         c = new Cause(cs.getCauses().get(code.getCode()));
         c.setCode(code);
-        if (null == args)
-        {
+        if (null == args) {
             return c;
         }
 
         String msgStr = c.getMsgEnUS();
-        for (int i = 0; i < args.length; i++)
-        {
+        for (int i = 0; i < args.length; i++) {
             msgStr = msgStr.replaceFirst("<" + (i + 1) + ">", "[ " + args[i] + " ]");
         }
         c.setMsgEnUS(msgStr);
 
         msgStr = c.getMsgZhCN();
-        for (int i = 0; i < args.length; i++)
-        {
+        for (int i = 0; i < args.length; i++) {
             msgStr = msgStr.replaceFirst("<" + (i + 1) + ">", "[ " + args[i] + " ]");
         }
         c.setMsgZhCN(msgStr);
         return c;
     }
-    
+
     /**
-    * 
-    * @Title: testResult 
-    * @Description: Set test result 
-    * @param @param hist
-    * @param @param oldRsp
-    * @param @param newRsp 
-    * @return void
-    * @throws
+     * @param @param hist
+     * @param @param oldRsp
+     * @param @param newRsp
+     * @return void
+     * @throws
+     * @Title: testResult
+     * @Description: Set test result
      */
-    public static void testResult(HttpHists hists, HttpHist hist, HttpRsp newRsp)
-    {
+    public static void testResult(HttpHists hists, HttpHist hist, HttpRsp newRsp) {
         Cause cs = null;
 
         HttpRsp oldRsp = hist.getRsp();
         String oldBdy = oldRsp.getBody();
         String newBdy = newRsp.getBody();
 
-        if (null == oldBdy)
-        {
+        if (null == oldBdy) {
             oldBdy = StringUtils.EMPTY;
         }
 
-        if (null == newBdy)
-        {
+        if (null == newBdy) {
             newBdy = StringUtils.EMPTY;
         }
-    
+
         Integer oldSC = oldRsp.getStatusCode();
         Integer newSC = newRsp.getStatusCode();
 
@@ -719,8 +604,7 @@ public class RESTUtil
         hist.getReq().setHeaders(null);
         hist.getReq().setCookies(null);
 
-        if (null == oldSC || null == newSC)
-        {
+        if (null == oldSC || null == newSC) {
             hist.setResult(Results.ERROR);
             cs = RESTUtil.getCause(ErrCode.HTTP_REQUEST_FAILED);
             hist.setCause(cs.toString());
@@ -728,8 +612,7 @@ public class RESTUtil
             return;
         }
 
-        if (!oldSC.equals(newSC))
-        {
+        if (!oldSC.equals(newSC)) {
             hist.setResult(Results.FAILURE);
             cs = RESTUtil.getCause(ErrCode.INCONSISTENT_STATUS, String.valueOf(newSC), String.valueOf(oldSC));
             hist.setCause(cs.toString());
@@ -737,8 +620,7 @@ public class RESTUtil
             return;
         }
 
-        if (!hist.getAssertBdy())
-        {
+        if (!hist.getAssertBdy()) {
             cs = RESTUtil.getCause(ErrCode.SUCCESS);
             hist.setCause(cs.toString());
             hists.countPass();
@@ -746,23 +628,17 @@ public class RESTUtil
         }
 
         boolean isFailed = false;
-        if (isJson(oldBdy))
-        {
-            if (!diff(oldBdy, newBdy, hist.getExcludedNodes()))
-            {
+        if (isJson(oldBdy)) {
+            if (!diff(oldBdy, newBdy, hist.getExcludedNodes())) {
                 isFailed = true;
             }
-        }
-        else
-        {
-            if (!oldBdy.equals(newBdy))
-            {
+        } else {
+            if (!oldBdy.equals(newBdy)) {
                 isFailed = true;
             }
         }
 
-        if (isFailed)
-        {
+        if (isFailed) {
             hist.setResult(Results.FAILURE);
             cs = RESTUtil.getCause(ErrCode.INCONSISTENT_BODY);
             hist.setCause(cs.toString());
@@ -776,17 +652,15 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: rerunResult 
-    * @Description: Set rerun result 
-    * @param @param hist
-    * @param @param oldRsp
-    * @param @param newRsp 
-    * @return void
-    * @throws
+     * @param @param hist
+     * @param @param oldRsp
+     * @param @param newRsp
+     * @return void
+     * @throws
+     * @Title: rerunResult
+     * @Description: Set rerun result
      */
-    public static void rerunResult(HttpHists hists, HttpHist hist, HttpRsp newRsp)
-    {
+    public static void rerunResult(HttpHists hists, HttpHist hist, HttpRsp newRsp) {
         Cause cs = null;
 
         HttpRsp oldRsp = hist.getRsp();
@@ -794,16 +668,14 @@ public class RESTUtil
         String newBdy = newRsp.getBody();
         String newMsg = newRsp.getMessage();
 
-        if (null == oldBdy)
-        {
+        if (null == oldBdy) {
             oldBdy = StringUtils.EMPTY;
         }
 
-        if (null == newBdy)
-        {
+        if (null == newBdy) {
             newBdy = StringUtils.EMPTY;
         }
-    
+
         Integer oldSC = oldRsp.getStatusCode();
         Integer newSC = newRsp.getStatusCode();
 
@@ -820,8 +692,7 @@ public class RESTUtil
         hist.getReq().setHeaders(null);
         hist.getReq().setCookies(null);
 
-        if (null == oldSC || null == newSC)
-        {
+        if (null == oldSC || null == newSC) {
             hist.setResult(Results.ERROR);
             cs = RESTUtil.getCause(ErrCode.HTTP_REQUEST_ERR);
             hist.setCause(cs.toString());
@@ -829,8 +700,7 @@ public class RESTUtil
             return;
         }
 
-        if (newSC >= RESTConst.HTTP_ERR_BASE)
-        {
+        if (newSC >= RESTConst.HTTP_ERR_BASE) {
             hist.setResult(Results.FAILURE);
             hist.setCause(newMsg);
             hists.countFail();
@@ -843,172 +713,136 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: replacePath 
-    * @Description: replace file path 
-    * @param @param path
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  path
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: replacePath
+     * @Description: replace file path
      */
-    public static String replacePath(String path)
-    {
-        return StringUtils.replaceOnce(path, 
-               RESTConst.WISDOM_TOOL,
-               RESTConst.WORK + File.separatorChar);
+    public static String replacePath(String path) {
+        return StringUtils.replaceOnce(path,
+                RESTConst.WISDOM_TOOL,
+                RESTConst.WORK + File.separatorChar);
     }
 
     /**
-    * 
-    * @Title: getReportPath 
-    * @Description: get report path 
-    * @param @return
-    * @return String 
-    * @throws
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: getReportPath
+     * @Description: get report path
      */
-    public static String getPath(String subPath)
-    {
+    public static String getPath(String subPath) {
         StringBuilder sb = new StringBuilder();
         sb.append(RESTConst.WORK).append(File.separatorChar);
 
-        if (StringUtils.isNotEmpty(subPath))
-        {
+        if (StringUtils.isNotEmpty(subPath)) {
             sb.append(subPath).append(File.separatorChar);
         }
 
         return sb.toString();
     }
-    
+
     /**
-    * 
-    * @Title: close 
-    * @Description: Close writer 
-    * @param @param w 
-    * @return void
-    * @throws
+     * @param @param w
+     * @return void
+     * @throws
+     * @Title: close
+     * @Description: Close writer
      */
-    public static void close(XMLWriter xw)
-    {
-        if (null == xw)
-        {
+    public static void close(XMLWriter xw) {
+        if (null == xw) {
             return;
         }
-        try
-        {
+        try {
             xw.close();
             xw = null;
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             log.error("Failed to close writer.", e);
         }
     }
-    
+
     /**
-    * 
-    * @Title: dup 
-    * @Description: Get duplicate string by specified number and chars 
-    * @param @param num
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  num
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: dup
+     * @Description: Get duplicate string by specified number and chars
      */
-    public static String dup(int num, String chars)
-    {
+    public static String dup(int num, String chars) {
         StringBuilder sb = new StringBuilder();
-        
-        for (int i = 0; i < num; i++)
-        {
+
+        for (int i = 0; i < num; i++) {
             sb.append(chars);
         }
 
         return sb.toString();
     }
-    
+
     /**
-    *
-    * @Title: jsonTree 
-    * @Description: To generate a JSON tree 
-    * @param @param e
-    * @param @param layer
-    * @param @param sb 
-    * @return layer
-    * @throws
+     * @param @param e
+     * @param @param layer
+     * @param @param sb
+     * @return layer
+     * @throws
+     * @Title: jsonTree
+     * @Description: To generate a JSON tree
      */
-    public static void jsonTree(JsonElement e, int layer, StringBuilder sb)
-    {
-        if (e.isJsonNull())
-        {
+    public static void jsonTree(JsonElement e, int layer, StringBuilder sb) {
+        if (e.isJsonNull()) {
             return;
         }
 
-        if (e.isJsonPrimitive())
-        {
+        if (e.isJsonPrimitive()) {
             return;
         }
 
-        if (e.isJsonArray())
-        {
+        if (e.isJsonArray()) {
             JsonArray ja = e.getAsJsonArray();
-            if (ja.size() > 0)
-            {
+            if (ja.size() > 0) {
                 jsonTree(ja.get(0), layer, sb);
             }
             return;
         }
 
-        if (e.isJsonObject())
-        {
+        if (e.isJsonObject()) {
             String line = RESTConst.LINE;
             String type = RESTConst.UNKNOWN;
             String spaces = "    ";
             String vertLine = "│   ";
-            
+
             String indent = dup(layer, spaces);
 
             layer++;
-            if (layer <= 0)
-            {
+            if (layer <= 0) {
                 line = "   ";
             }
 
             Set<Entry<String, JsonElement>> es = e.getAsJsonObject().entrySet();
-            for (Entry<String, JsonElement> en : es)
-            {
+            for (Entry<String, JsonElement> en : es) {
                 indent = dup(layer, spaces);
-                if (layer >= 2)
-                {
+                if (layer >= 2) {
                     indent = dup(1, spaces) + dup(layer - 1, vertLine);
                 }
 
                 sb.append(indent).append(line).append(en.getKey()).append(" [");
-                
-                if (en.getValue().isJsonArray())
-                {
+
+                if (en.getValue().isJsonArray()) {
                     type = Array.class.getSimpleName();
-                }
-                else if (en.getValue().isJsonObject())
-                {
+                } else if (en.getValue().isJsonObject()) {
                     type = Object.class.getSimpleName();
-                }
-                else if (en.getValue().isJsonPrimitive())
-                {
+                } else if (en.getValue().isJsonPrimitive()) {
                     JsonPrimitive jp = en.getValue().getAsJsonPrimitive();
-                    if (jp.isBoolean())
-                    {
+                    if (jp.isBoolean()) {
                         type = Boolean.class.getSimpleName();
-                    }
-                    else if (jp.isNumber())
-                    {
+                    } else if (jp.isNumber()) {
                         type = Number.class.getSimpleName();
-                    }
-                    else if (jp.isString())
-                    {
+                    } else if (jp.isString()) {
                         type = String.class.getSimpleName();
                     }
-                }
-                else if (en.getValue().isJsonNull())
-                {
+                } else if (en.getValue().isJsonNull()) {
                     type = null + "";
                 }
 
@@ -1017,21 +851,18 @@ public class RESTUtil
             }
         }
     }
-    
+
     /**
-    * 
-    * @Title: xmlTree 
-    * @Description: To generate a XML tree 
-    * @param @param e
-    * @param @param layer
-    * @param @param sb 
-    * @return void
-    * @throws
+     * @param @param e
+     * @param @param layer
+     * @param @param sb
+     * @return void
+     * @throws
+     * @Title: xmlTree
+     * @Description: To generate a XML tree
      */
-    public static void xmlTree(Element e, int layer, StringBuilder sb)
-    {
-        if (e.nodeCount() <= 0)
-        {
+    public static void xmlTree(Element e, int layer, StringBuilder sb) {
+        if (e.nodeCount() <= 0) {
             return;
         }
 
@@ -1042,66 +873,52 @@ public class RESTUtil
         String indent = dup(layer, spaces);
 
         layer++;
-        if (layer <= 0)
-        {
+        if (layer <= 0) {
             line = "   ";
         }
 
         @SuppressWarnings("unchecked")
         List<Element> es = e.elements();
-        for (Element ce : es)
-        {
+        for (Element ce : es) {
             indent = dup(layer, spaces);
-            if (layer >= 2)
-            {
+            if (layer >= 2) {
                 indent = dup(1, spaces) + dup(layer - 1, vertLine);
             }
 
-            if (!ce.elements().isEmpty() || ce.attributeCount() > 0)
-            {
+            if (!ce.elements().isEmpty() || ce.attributeCount() > 0) {
                 type = Object.class.getSimpleName();
-            }
-            else if (StringUtils.isNotEmpty(ce.getText()) && StringUtils.isNumeric(ce.getStringValue()))
-            {
+            } else if (StringUtils.isNotEmpty(ce.getText()) && StringUtils.isNumeric(ce.getStringValue())) {
                 type = Number.class.getSimpleName();
-            }
-            else
-            {
+            } else {
                 type = String.class.getSimpleName();
             }
 
             /* Element */
             sb.append(indent).append(line)
-              .append(ce.getName()).append(" [")
-              .append(type.toLowerCase())
-              .append("]").append(lines(1));
+                    .append(ce.getName()).append(" [")
+                    .append(type.toLowerCase())
+                    .append("]").append(lines(1));
 
             /* Attributes */
-            if (ce.attributeCount() > 0)
-            {
+            if (ce.attributeCount() > 0) {
                 indent = dup(layer + 1, spaces);
-                if (layer + 1 >= 2)
-                {
+                if (layer + 1 >= 2) {
                     indent = dup(1, spaces) + dup(layer, vertLine);
                 }
 
                 @SuppressWarnings("unchecked")
                 List<Attribute> as = ce.attributes();
-                for (Attribute a : as)
-                {
-                    if (StringUtils.isNotEmpty(ce.getText()) && StringUtils.isNumeric(a.getValue()))
-                    {
+                for (Attribute a : as) {
+                    if (StringUtils.isNotEmpty(ce.getText()) && StringUtils.isNumeric(a.getValue())) {
                         type = Number.class.getSimpleName();
-                    }
-                    else
-                    {
+                    } else {
                         type = String.class.getSimpleName();
                     }
-                    
+
                     sb.append(indent).append(RESTConst.LINE)
-                      .append(a.getName()).append(" [")
-                      .append(type.toLowerCase())
-                      .append("]").append(lines(1));
+                            .append(a.getName()).append(" [")
+                            .append(type.toLowerCase())
+                            .append("]").append(lines(1));
                 }
             }
 
@@ -1110,23 +927,19 @@ public class RESTUtil
     }
 
     /**
-    * 
-    * @Title: toModel 
-    * @Description: Change to JSON model 
-    * @param @param json
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  json
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: toModel
+     * @Description: Change to JSON model
      */
-    public static String toModel(String txt)
-    {
-        if (StringUtils.isEmpty(txt))
-        {
+    public static String toModel(String txt) {
+        if (StringUtils.isEmpty(txt)) {
             return StringUtils.EMPTY;
         }
 
-        if (isHtml(txt))
-        {
+        if (isHtml(txt)) {
             return txt;
         }
 
@@ -1134,8 +947,7 @@ public class RESTUtil
         StringBuilder sb = new StringBuilder();
 
         /* JSON */
-        if (isJson(txt))
-        {
+        if (isJson(txt)) {
             JsonParser p = new JsonParser();
             JsonElement e = p.parse(txt);
 
@@ -1145,160 +957,126 @@ public class RESTUtil
         }
 
         /* XML */
-        if (isXml(txt))
-        {
-            try
-            {
+        if (isXml(txt)) {
+            try {
                 txt = StringUtils.replaceOnce(txt, "?>", "?><root>") + "</root>";
                 Document doc = DocumentHelper.parseText(txt);
                 xmlTree(doc.getRootElement(), layer, sb);
                 return sb.toString();
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 log.error("Bad xml format: " + lines(1) + txt);
             }
         }
 
         return sb.toString();
     }
-    
+
     /**
-    * 
-    * @Title      : loadHist 
-    * @Description: Load history 
-    * @Param      : @param path if not specified, will use default. 
-    * @Param      : @return 
-    * @Return     : HttpHists
-    * @Throws     :
+     * @Title : loadHist
+     * @Description: Load history
+     * @Param : @param path if not specified, will use default.
+     * @Param : @return
+     * @Return : HttpHists
+     * @Throws :
      */
-    public static HttpHists loadHist(String path)
-    {
+    public static HttpHists loadHist(String path) {
         File fhist = null;
-        if (StringUtils.isNotEmpty(path))
-        {
+        if (StringUtils.isNotEmpty(path)) {
             fhist = new File(path);
-            if (!fhist.exists())
-            {
+            if (!fhist.exists()) {
                 System.out.println("The historical file " + path + " does not exist, will use default " + RESTConst.HTTP_HIST_JSON);
                 fhist = new File(RESTConst.HTTP_HIST_JSON);
             }
-        }
-        else
-        {
+        } else {
             fhist = new File(RESTConst.HTTP_HIST_JSON);
         }
 
-        if (!fhist.exists())
-        {
+        if (!fhist.exists()) {
             System.out.println("The historical file " + path + " does not exist.");
             return null;
         }
 
         HttpHists hists = RESTUtil.toOject(fhist, HttpHists.class);
-        if (null == hists || CollectionUtils.isEmpty(hists.getHists()))
-        {
+        if (null == hists || CollectionUtils.isEmpty(hists.getHists())) {
             System.out.println("No historical cases.");
         }
         return hists;
     }
-    
+
     /**
-    * 
-    * @Title      : printUsage 
-    * @Description: print usage
-    * @Param      :  
-    * @Return     : void
-    * @Throws     :
+     * @Title : printUsage
+     * @Description: print usage
+     * @Param :
+     * @Return : void
+     * @Throws :
      */
-    public static void printUsage()
-    {
-        try
-        {
+    public static void printUsage() {
+        try {
             InputStream is = RESTUtil.getInputStream(RESTConst.WISDOM_TOOL_USAGE);
             String jsTxt = IOUtils.toString(is, Charsets.UTF_8.getCname());
             RESTUtil.close(is);
             System.out.println(jsTxt);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             log.error("Failed to read help file.", e);
         }
     }
-    
+
     /**
-    * 
-    * @Title      : closeSplashScreen 
-    * @Description: close splash screen 
-    * @Param      :  
-    * @Return     : void
-    * @Throws     :
+     * @Title : closeSplashScreen
+     * @Description: close splash screen
+     * @Param :
+     * @Return : void
+     * @Throws :
      */
-    public static void closeSplashScreen()
-    {
+    public static void closeSplashScreen() {
         SplashScreen ss = SplashScreen.getSplashScreen();
-        if (null == ss)
-        {
+        if (null == ss) {
             return;
         }
-        try
-        {
+        try {
             ss.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             // Ignore this exception
         }
     }
-    
+
     /**
-    * 
-    * @Title      : excludeNode 
-    * @Description: Exclude JSON nodes 
-    * @Param      : @param e
-    * @Param      : @param path
-    * @Param      : @param exclNodes, nodes to be excluded 
-    * @Return     : void
-    * @Throws     :
+     * @Title : excludeNode
+     * @Description: Exclude JSON nodes
+     * @Param : @param e
+     * @Param : @param path
+     * @Param : @param exclNodes, nodes to be excluded
+     * @Return : void
+     * @Throws :
      */
-    private static void jsonTree(JsonElement e, String path, List<String> exclNodes)
-    {
-        if (e.isJsonNull())
-        {
+    private static void jsonTree(JsonElement e, String path, List<String> exclNodes) {
+        if (e.isJsonNull()) {
             return;
         }
 
-        if (e.isJsonPrimitive())
-        {
+        if (e.isJsonPrimitive()) {
             return;
         }
 
-        if (e.isJsonArray())
-        {
+        if (e.isJsonArray()) {
             JsonArray ja = e.getAsJsonArray();
-            if (null != ja)
-            {
-                for (JsonElement ae : ja)
-                {
+            if (null != ja) {
+                for (JsonElement ae : ja) {
                     jsonTree(ae, path, exclNodes);
                 }
             }
             return;
         }
 
-        if (e.isJsonObject())
-        {
+        if (e.isJsonObject()) {
             Map<String, JsonElement> tm = new LinkedHashMap<String, JsonElement>();
-            for (Entry<String, JsonElement> en : e.getAsJsonObject().entrySet())
-            {
+            for (Entry<String, JsonElement> en : e.getAsJsonObject().entrySet()) {
                 tm.put(en.getKey(), en.getValue());
             }
 
-            for (Entry<String, JsonElement> en : tm.entrySet())
-            {
+            for (Entry<String, JsonElement> en : tm.entrySet()) {
                 String nodeKey = path + "|" + en.getKey();
-                if (CollectionUtils.isNotEmpty(exclNodes) && exclNodes.contains(nodeKey))
-                {
+                if (CollectionUtils.isNotEmpty(exclNodes) && exclNodes.contains(nodeKey)) {
                     e.getAsJsonObject().remove(en.getKey());
                     continue;
                 }
@@ -1306,22 +1084,19 @@ public class RESTUtil
             }
         }
     }
-    
+
     /**
-    * 
-    * @Title      : diff 
-    * @Description: Differ JSON nodes 
-    * @Param      : @param json1
-    * @Param      : @param json2
-    * @Param      : @param excludedNodes
-    * @Param      : @return 
-    * @Return     : boolean
-    * @Throws     :
+     * @Title : diff
+     * @Description: Differ JSON nodes
+     * @Param : @param json1
+     * @Param : @param json2
+     * @Param : @param excludedNodes
+     * @Param : @return
+     * @Return : boolean
+     * @Throws :
      */
-    public static boolean diff(String json1, String json2, List<String> exclNodes)
-    {
-        if (CollectionUtils.isEmpty(exclNodes))
-        {
+    public static boolean diff(String json1, String json2, List<String> exclNodes) {
+        if (CollectionUtils.isEmpty(exclNodes)) {
             return json1.equals(json2);
         }
 

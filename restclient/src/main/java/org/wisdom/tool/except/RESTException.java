@@ -20,52 +20,45 @@ import org.apache.logging.log4j.Logger;
 import org.wisdom.tool.model.Cause;
 import org.wisdom.tool.model.Results;
 
-/** 
-* @ClassName: RESTException 
-* @Description: REST exception
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-25 PM 8:40:33 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RESTException extends Exception
-{
+/**
+ * @ClassName: RESTException
+ * @Description: REST exception
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-25 PM 8:40:33
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RESTException extends Exception {
     private static Logger log = LogManager.getLogger(RESTException.class);
 
     private static final long serialVersionUID = -8596508991250642705L;
 
     private String status;
 
-    public RESTException()
-    {
+    public RESTException() {
     }
 
-    public RESTException(String message)
-    {
+    public RESTException(String message) {
         super(message);
     }
 
-    public RESTException(Cause c)
-    {
+    public RESTException(Cause c) {
         super(c.toString());
         this.setStatus(Results.ERROR.getResult());
         log.error(c.toString());
     }
 
-    public RESTException(Cause c, Results r)
-    {
+    public RESTException(Cause c, Results r) {
         super(c.toString());
         this.setStatus(r.getResult());
         log.error(c.toString());
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status)
-    {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

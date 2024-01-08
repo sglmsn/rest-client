@@ -15,32 +15,27 @@
  */
 package org.wisdom.tool.common;
 
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-/** 
-* @ClassName: RESTTrustManager 
-* @Description: REST trust manager 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: Jul 26, 2017 5:32:58 PM 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RESTTrustManager implements TrustManager, X509TrustManager
-{
-    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException
-    {
+/**
+ * @ClassName: RESTTrustManager
+ * @Description: REST trust manager
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: Jul 26, 2017 5:32:58 PM
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RESTTrustManager implements TrustManager, X509TrustManager {
+    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
-    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException
-    {
+    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
-    public X509Certificate[] getAcceptedIssuers()
-    {
+    public X509Certificate[] getAcceptedIssuers() {
         return null;
     }
 }

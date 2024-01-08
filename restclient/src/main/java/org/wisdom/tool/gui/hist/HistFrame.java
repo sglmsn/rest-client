@@ -16,37 +16,6 @@
 
 package org.wisdom.tool.gui.hist;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.wisdom.tool.constant.RESTConst;
@@ -60,16 +29,28 @@ import org.wisdom.tool.model.HttpReq;
 import org.wisdom.tool.model.HttpRsp;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @Class Name : HistFrame 
-* @Description: Historical Record Frame 
-* @Author     : Dom Wang 
-* @Email      : wisdomtool@qq.com
-* @Date       : Mar 4, 2018 8:28:38 PM 
-* @Version    : Wisdom RESTClient V1.3 
-*/
-public class HistFrame extends JFrame implements ActionListener, ChangeListener
-{
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * @Class Name : HistFrame
+ * @Description: Historical Record Frame
+ * @Author : Dom Wang
+ * @Email : wisdomtool@qq.com
+ * @Date : Mar 4, 2018 8:28:38 PM
+ * @Version : Wisdom RESTClient V1.3
+ */
+public class HistFrame extends JFrame implements ActionListener, ChangeListener {
     private static final long serialVersionUID = 1394380599441039862L;
 
     private HttpHist hist = null;
@@ -106,70 +87,58 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
 
     private JMenuItem miNewHdr = null;
 
-    private MouseAdapter ma = new MouseAdapter()
-    {
-        private void popup(MouseEvent e)
-        {
+    private MouseAdapter ma = new MouseAdapter() {
+        private void popup(MouseEvent e) {
             int rc = tab.getRowCount();
-            if (rc < 1)
-            {
+            if (rc < 1) {
                 miNewHdr.setEnabled(true);
                 miRmSelHdr.setEnabled(false);
                 return;
             }
 
             rc = tab.getSelectedRowCount();
-            if (rc < 1)
-            {
+            if (rc < 1) {
                 miNewHdr.setEnabled(true);
                 miRmSelHdr.setEnabled(false);
-            }
-            else
-            {
+            } else {
                 miNewHdr.setEnabled(true);
                 miRmSelHdr.setEnabled(true);
             }
 
-            if (e.isPopupTrigger())
-            {
+            if (e.isPopupTrigger()) {
                 pm.show(e.getComponent(), e.getX(), e.getY());
             }
         }
 
         @Override
-        public void mousePressed(MouseEvent e)
-        {
+        public void mousePressed(MouseEvent e) {
             this.popup(e);
         }
 
         @Override
-        public void mouseReleased(MouseEvent e)
-        {
+        public void mouseReleased(MouseEvent e) {
             this.popup(e);
         }
     };
-    
-    /** 
-    * @Title      : HistFrame 
-    * @Description: constructor 
-    * @Param      : 
-    */
-    public HistFrame()
-    {
+
+    /**
+     * @Title : HistFrame
+     * @Description: constructor
+     * @Param :
+     */
+    public HistFrame() {
         this.init();
         this.initPopupMenu();
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init()
-    {
+    private void init() {
         this.setTitle(RESTConst.HIST_DETAIL);
         this.setResizable(true);
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
@@ -287,15 +256,13 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
     }
 
     /**
-    * 
-    * @Title      : initPopupMenu 
-    * @Description: PopupMenu Initialization 
-    * @Param      :  
-    * @Return     : void
-    * @Throws     :
+     * @Title : initPopupMenu
+     * @Description: PopupMenu Initialization
+     * @Param :
+     * @Return : void
+     * @Throws :
      */
-    public void initPopupMenu()
-    {
+    public void initPopupMenu() {
         pm = new JPopupMenu();
 
         miRmSelHdr = new JMenuItem(RESTConst.RM_SEL);
@@ -312,15 +279,13 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
     }
 
     /**
-    * 
-    * @Title      : setFrame 
-    * @Description: Set history frame
-    * @Param      : @param hist 
-    * @Return     : void
-    * @Throws     :
+     * @Title : setFrame
+     * @Description: Set history frame
+     * @Param : @param hist
+     * @Return : void
+     * @Throws :
      */
-    public void setFrame(HttpHist hist)
-    {
+    public void setFrame(HttpHist hist) {
         this.hist = hist;
         HttpReq req = hist.getReq();
         HttpRsp rep = hist.getRsp();
@@ -333,10 +298,8 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
         // HTTP request header
         this.tabMdl.clear();
         Map<String, String> hdrs = req.getHeaders();
-        if (MapUtils.isNotEmpty(hdrs))
-        {
-            for (Entry<String, String> e : hdrs.entrySet())
-            {
+        if (MapUtils.isNotEmpty(hdrs)) {
+            for (Entry<String, String> e : hdrs.entrySet()) {
                 this.tabMdl.insertRow(e.getKey(), e.getValue());
             }
         }
@@ -353,14 +316,11 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
         taRepBody.setText(rep.getBody());
         jsonTree.clear();
         jsonTree.setHist(hist);
-        if (RESTUtil.isJson(rep.getBody()))
-        {
+        if (RESTUtil.isJson(rep.getBody())) {
             jsonTree.populateTree();
             UIUtil.expand(jsonTree.getTree());
             tpRepBody.setSelectedIndex(1);
-        }
-        else
-        {
+        } else {
             tpRepBody.setSelectedIndex(0);
         }
 
@@ -369,15 +329,13 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
     }
 
     /**
-    * 
-    * @Title      : updateHist 
-    * @Description: Update history record 
-    * @Param      :  
-    * @Return     : void
-    * @Throws     :
+     * @Title : updateHist
+     * @Description: Update history record
+     * @Param :
+     * @Return : void
+     * @Throws :
      */
-    public void updateHist()
-    {
+    public void updateHist() {
         HttpReq req = hist.getReq();
         HttpRsp rep = hist.getRsp();
 
@@ -394,14 +352,12 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
         req.setBody(this.taReqBody.getText());
         req.getCookies().clear();
         String ckiHdr = headers.get(RESTConst.COOKIE);
-        if (StringUtils.isNotEmpty(ckiHdr))
-        {
+        if (StringUtils.isNotEmpty(ckiHdr)) {
             String key = RESTConst.EMPTY;
             String value = RESTConst.EMPTY;
 
             String[] cookies = StringUtils.split(ckiHdr, ";");
-            for (String cookie : cookies)
-            {
+            for (String cookie : cookies) {
                 key = StringUtils.substringBefore(cookie, "=");
                 value = StringUtils.substringAfter(cookie, "=");
                 req.getCookies().put(StringUtils.trim(key), value);
@@ -410,8 +366,7 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
 
         // HTTP Response
         String status = this.txtFldStat.getText();
-        if (StringUtils.isNumeric(status))
-        {
+        if (StringUtils.isNumeric(status)) {
             rep.setStatusCode(Integer.parseInt(status));
         }
         rep.setBody(this.taRepBody.getText());
@@ -422,21 +377,17 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
     }
 
     /**
-    * 
-    * @Title      : menuItemPerformed 
-    * @Description: Menu item action performed 
-    * @Param      : @param e 
-    * @Return     : void
-    * @Throws     :
+     * @Title : menuItemPerformed
+     * @Description: Menu item action performed
+     * @Param : @param e
+     * @Return : void
+     * @Throws :
      */
-    private void menuItemPerformed(ActionEvent e)
-    {
+    private void menuItemPerformed(ActionEvent e) {
         JMenuItem item = (JMenuItem) (e.getSource());
-        if (RESTConst.RM_SEL.equals(item.getName()))
-        {
+        if (RESTConst.RM_SEL.equals(item.getName())) {
             int rc = tab.getSelectedRowCount();
-            if (rc < 1)
-            {
+            if (rc < 1) {
                 return;
             }
 
@@ -444,46 +395,38 @@ public class HistFrame extends JFrame implements ActionListener, ChangeListener
             tabMdl.deleteRow(rows);
         }
 
-        if (RESTConst.NEW_HDR.equals(item.getName()))
-        {
+        if (RESTConst.NEW_HDR.equals(item.getName())) {
             tabMdl.insertRow(RESTConst.EMPTY, RESTConst.EMPTY);
             return;
         }
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() instanceof JMenuItem)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JMenuItem) {
             this.menuItemPerformed(e);
             return;
         }
 
-        if (e.getSource() instanceof JButton)
-        {
+        if (e.getSource() instanceof JButton) {
             this.updateHist();
             this.setVisible(false);
         }
     }
 
-    public void stateChanged(ChangeEvent e)
-    {
+    public void stateChanged(ChangeEvent e) {
         Component cp = tpRepBody.getSelectedComponent();
-        if (!(cp instanceof JSONTree))
-        {
+        if (!(cp instanceof JSONTree)) {
             return;
         }
 
         String oldBody = hist.getRsp().getBody();
         String newBody = taRepBody.getText();
-        if (StringUtils.equals(newBody, oldBody))
-        {
+        if (StringUtils.equals(newBody, oldBody)) {
             return;
         }
 
         jsonTree.clear();
-        if (!RESTUtil.isJson(newBody))
-        {
+        if (!RESTUtil.isJson(newBody)) {
             return;
         }
 

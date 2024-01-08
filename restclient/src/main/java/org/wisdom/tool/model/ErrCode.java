@@ -15,16 +15,15 @@
  */
 package org.wisdom.tool.model;
 
-/** 
-* @ClassName: ErrCode 
-* @Description: HTTP test error code 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-18 PM 3:30:01 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public enum ErrCode
-{
+/**
+ * @ClassName: ErrCode
+ * @Description: HTTP test error code
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-18 PM 3:30:01
+ * @Version: Wisdom RESTClient V1.3
+ */
+public enum ErrCode {
     SUCCESS(10000),
 
     NO_CASE(10001),
@@ -45,18 +44,15 @@ public enum ErrCode
 
     private int code;
 
-    private ErrCode(int c)
-    {
+    private ErrCode(int c) {
         this.code = c;
     }
 
-    public int getCode()
-    {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(int code)
-    {
+    public void setCode(int code) {
         this.code = code;
     }
 

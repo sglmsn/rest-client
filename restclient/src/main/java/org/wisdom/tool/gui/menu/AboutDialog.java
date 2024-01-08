@@ -15,49 +15,37 @@
  */
 package org.wisdom.tool.gui.menu;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.gui.util.UIUtil;
 
-/** 
-* @ClassName: AboutDialog 
-* @Description: About Dialog
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class AboutDialog extends JDialog implements ActionListener
-{
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+/**
+ * @ClassName: AboutDialog
+ * @Description: About Dialog
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class AboutDialog extends JDialog implements ActionListener {
     private static final long serialVersionUID = -2821579370172523357L;
 
-    public AboutDialog()
-    {
+    public AboutDialog() {
         this.init();
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init()
-    {
+    private void init() {
         this.setTitle(RESTConst.ABOUT_TOOL);
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
 
@@ -93,8 +81,7 @@ public class AboutDialog extends JDialog implements ActionListener
         this.pack();
     }
 
-    public void actionPerformed(ActionEvent arg0)
-    {
+    public void actionPerformed(ActionEvent arg0) {
         this.setVisible(false);
     }
 

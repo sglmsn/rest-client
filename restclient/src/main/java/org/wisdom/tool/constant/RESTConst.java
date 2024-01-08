@@ -15,16 +15,15 @@
  */
 package org.wisdom.tool.constant;
 
-/** 
-* @ClassName: RESTConst 
-* @Description: Rest constants 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RESTConst
-{
+/**
+ * @ClassName: RESTConst
+ * @Description: Rest constants
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RESTConst {
     public static final String REST_CLIENT_VERSION = "Wisdom RESTClient V1.3";
 
     public static final String WORK = "work";
@@ -70,21 +69,21 @@ public class RESTConst
     public static final String HELP_DOC = WISDOM_TOOL + "doc/rest-client.pdf";
 
     public final static String APIDOC_BTSTRAP_JS = WISDOM_TOOL + "apidoc/js/bootstrap.js";
-    
+
     public final static String APIDOC_JS = WISDOM_TOOL + "apidoc/js/apidoc.js";
-    
+
     public final static String APIDOC_DATA_JS = WISDOM_TOOL + "apidoc/js/apidata.js";
-    
+
     public final static String APIDOC_JQUERY = WISDOM_TOOL + "apidoc/js/jquery-3.1.1.min.js";
-    
+
     public final static String APIDOC_CSS = WISDOM_TOOL + "apidoc/css/apidoc.css";
-    
+
     public final static String APIDOC_BTSTRAP_CSS = WISDOM_TOOL + "apidoc/css/bootstrap.css";
-    
+
     public final static String APIDOC_JSON = WISDOM_TOOL + "apidoc/apidoc.json";
-    
+
     public final static String APIDOC_HTML = WISDOM_TOOL + "apidoc/apidoc.html";
-    
+
     public static final String URL_ISSUE = "https://github.com/Wisdom-Projects/rest-client/issues";
 
     public static final int BORDER_WIDTH = 5;
@@ -220,7 +219,7 @@ public class RESTConst
     public static final String HELP = "Help";
 
     public static final String TOOLS = "Tools";
-    
+
     public static final String CREATE = "Create";
 
     public static final String OPEN = "Open";
@@ -240,7 +239,7 @@ public class RESTConst
     public static final String HDR_TAG = "-- HEADERS  --";
 
     public static final String CKI_TAG = "-- COOKIE  --";
-    
+
     public static final String BDY_TAG = "--   BODY   --";
 
     public static final String CONTENT_LEN = "Content-Length";
@@ -250,7 +249,7 @@ public class RESTConst
     public static final String ACCEPT = "Accept";
 
     public static final String ACCEPT_TYPE = "application/json,application/xml,application/xhtml+xml,text/html,text/xml,text/plain";
-    
+
     public final static String HTTP_HIST_JSON = "work/http_history.json";
 
     public static final String CONFIRM_RM_ALL = "Are you sure you want to remove all?";
@@ -306,7 +305,7 @@ public class RESTConst
     public final static String RERUN_THREAD = "Rerun Thread";
 
     public final static String LOAD_THREAD = "Load Thread";
-    
+
     public final static String REQ_THREAD = "Request Thread";
 
     public final static String TLS = "TLS";
@@ -356,7 +355,7 @@ public class RESTConst
     public static final String OPTION_DOC = "-" + APIDOC;
 
     public static final String OPTION_HELP = "-help";
-    
+
     public static final String OPTION_GUI = "-gui";
 
     public static final String EMPTY = "";

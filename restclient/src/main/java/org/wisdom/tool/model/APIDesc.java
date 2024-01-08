@@ -17,16 +17,15 @@ package org.wisdom.tool.model;
 
 import java.io.Serializable;
 
-/** 
-* @ClassName: APIDesc 
-* @Description: RESTful API description 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class APIDesc implements Serializable
-{
+/**
+ * @ClassName: APIDesc
+ * @Description: RESTful API description
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class APIDesc implements Serializable {
     private static final long serialVersionUID = 2313207712392411547L;
 
     /**
@@ -39,29 +38,24 @@ public class APIDesc implements Serializable
      */
     private String summary;
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getSummary()
-    {
+    public String getSummary() {
         return summary;
     }
 
-    public void setSummary(String summary)
-    {
+    public void setSummary(String summary) {
         this.summary = summary;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("APIDesc [title=");
         builder.append(title);

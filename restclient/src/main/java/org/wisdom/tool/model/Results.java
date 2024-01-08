@@ -15,32 +15,28 @@
  */
 package org.wisdom.tool.model;
 
-/** 
-* @ClassName: Results 
-* @Description: HTTP test results 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2016-12-18 PM 3:30:01 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public enum Results
-{
+/**
+ * @ClassName: Results
+ * @Description: HTTP test results
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2016-12-18 PM 3:30:01
+ * @Version: Wisdom RESTClient V1.3
+ */
+public enum Results {
     FAILURE("failure"), PASS("pass"), ERROR("error");
 
     private String result;
 
-    private Results(String rs)
-    {
+    private Results(String rs) {
         this.result = rs;
     }
 
-    public String getResult()
-    {
+    public String getResult() {
         return result;
     }
 
-    public void setResult(String result)
-    {
+    public void setResult(String result) {
         this.result = result;
     }
 

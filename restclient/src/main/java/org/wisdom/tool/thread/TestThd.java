@@ -18,37 +18,31 @@ package org.wisdom.tool.thread;
 import org.wisdom.tool.model.HttpHists;
 import org.wisdom.tool.util.TestUtil;
 
-/** 
-* @ClassName: TestThd 
-* @Description: Test thread 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-18 PM 9:41:08  
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class TestThd extends Thread
-{
+/**
+ * @ClassName: TestThd
+ * @Description: Test thread
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-18 PM 9:41:08
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class TestThd extends Thread {
     private HttpHists hists = null;
 
-    public TestThd(HttpHists hists)
-    {
+    public TestThd(HttpHists hists) {
         this.hists = hists;
     }
 
-    public HttpHists getHists()
-    {
+    public HttpHists getHists() {
         return hists;
     }
 
-    public void setHists(HttpHists hists)
-    {
+    public void setHists(HttpHists hists) {
         this.hists = hists;
     }
 
-    public void run()
-    {
-        if (null == hists)
-        {
+    public void run() {
+        if (null == hists) {
             return;
         }
         TestUtil.runTest(hists);

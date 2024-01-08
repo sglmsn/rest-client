@@ -15,31 +15,6 @@
  */
 package org.wisdom.tool.gui.util;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FileUtils;
@@ -62,77 +37,82 @@ import org.wisdom.tool.model.HttpRsp;
 import org.wisdom.tool.util.RESTClient;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @ClassName: UIUtil 
-* @Description: UI Utility 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com
-* @Date: July 20, 2017 12:30:29 PM 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class UIUtil
-{
+import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * @ClassName: UIUtil
+ * @Description: UI Utility
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: July 20, 2017 12:30:29 PM
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class UIUtil {
     private static Logger log = LogManager.getLogger(UIUtil.class);
-    
+
     /**
-    * 
-    * @Title: getIcon
-    * @Description: Get icon from class path 
-    * @param @param path
-    * @param @return
-    * @return ImageIcon
-    * @throws
+     * @param @param  path
+     * @param @return
+     * @return ImageIcon
+     * @throws
+     * @Title: getIcon
+     * @Description: Get icon from class path
      */
-    public static ImageIcon getIcon(String path)
-    {
+    public static ImageIcon getIcon(String path) {
         URL url = UIUtil.class.getClassLoader().getResource(path);
         return new ImageIcon(url);
     }
-    
+
     /**
-    * 
-    * @Title: getImage 
-    * @Description: Get image from class path
-    * @param @param path
-    * @param @return
-    * @return Image 
-    * @throws
+     * @param @param  path
+     * @param @return
+     * @return Image
+     * @throws
+     * @Title: getImage
+     * @Description: Get image from class path
      */
-    public static Image getImage(String path)
-    {
+    public static Image getImage(String path) {
         URL url = UIUtil.class.getClassLoader().getResource(path);
         return Toolkit.getDefaultToolkit().getImage(url);
     }
-    
+
     /**
-    * 
-    * @Title: getValuePair 
-    * @Description: get key/value pair 
-    * @param @param values
-    * @param @return 
-    * @return Map<String,String>
-    * @throws
+     * @param @param  values
+     * @param @return
+     * @return Map<String, String>
+     * @throws
+     * @Title: getValuePair
+     * @Description: get key/value pair
      */
-    public static Map<String, String> getValuePair(Collection<List<Object>> values)
-    {
+    public static Map<String, String> getValuePair(Collection<List<Object>> values) {
         Map<String, String> valMap = new LinkedHashMap<String, String>();
-        if (CollectionUtils.isEmpty(values))
-        {
+        if (CollectionUtils.isEmpty(values)) {
             return valMap;
         }
 
         String key = StringUtils.EMPTY;
         String val = StringUtils.EMPTY;
-        for (List<Object> valLst : values)
-        {
-            if (valLst.size() < 1)
-            {
+        for (List<Object> valLst : values) {
+            if (valLst.size() < 1) {
                 continue;
             }
 
             key = String.valueOf(valLst.get(0));
-            if (valLst.size() > 1)
-            {
+            if (valLst.size() > 1) {
                 val = String.valueOf(valLst.get(1));
             }
             valMap.put(key, val);
@@ -142,64 +122,53 @@ public class UIUtil
     }
 
     /**
-    * 
-    * @Title: lightGray 
-    * @Description: light gray color
-    * @param @return 
-    * @return Color
-    * @throws
+     * @param @return
+     * @return Color
+     * @throws
+     * @Title: lightGray
+     * @Description: light gray color
      */
-    public static Color lightGray()
-    {
+    public static Color lightGray() {
         return new Color(RESTConst.LIGHT_GRAY, RESTConst.LIGHT_GRAY, RESTConst.LIGHT_GRAY);
     }
-    
+
     /**
-    * 
-    * @Title: openFile 
-    * @Description: open file to get file content 
-    * @param @param parent
-    * @param @param fc
-    * @param @return 
-    * @return String
-    * @throws
+     * @param @param  parent
+     * @param @param  fc
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: openFile
+     * @Description: open file to get file content
      */
-    public static String openFile(Component parent, JFileChooser fc)
-    {
+    public static String openFile(Component parent, JFileChooser fc) {
         String content = StringUtils.EMPTY;
         int retVal = fc.showOpenDialog(parent);
-        if (JFileChooser.APPROVE_OPTION != retVal)
-        {
+        if (JFileChooser.APPROVE_OPTION != retVal) {
             return content;
         }
 
-        try
-        {
+        try {
             File sf = fc.getSelectedFile();
             content = FileUtils.readFileToString(sf, Charsets.UTF_8.getCname());
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             log.error("Failed to read file.", e);
         }
 
         return content;
     }
-    
+
     /**
-    * 
-    * @Title: saveFile 
-    * @Description: Save HTTP history to file 
-    * @param @param parent
-    * @param @param fc 
-    * @return void
-    * @throws
+     * @param @param parent
+     * @param @param fc
+     * @return void
+     * @throws
+     * @Title: saveFile
+     * @Description: Save HTTP history to file
      */
-    public static void saveFile(Component parent, JFileChooser fc)
-    {
+    public static void saveFile(Component parent, JFileChooser fc) {
         int retVal = fc.showSaveDialog(parent);
-        if (JFileChooser.APPROVE_OPTION != retVal)
-        {
+        if (JFileChooser.APPROVE_OPTION != retVal) {
             return;
         }
 
@@ -208,28 +177,22 @@ public class UIUtil
         HttpHists hists = new HttpHists(histLst);
         RESTUtil.toJsonFile(fhist, hists);
     }
-    
+
     /**
-    * 
-    * @Title: saveFile 
-    * @Description: Save HTTP history to file  
-    * @param  
-    * @return void
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: saveFile
+     * @Description: Save HTTP history to file
      */
-    public static void saveFile()
-    {
+    public static void saveFile() {
         File fhist = new File(RESTConst.HTTP_HIST_JSON);
-        try
-        {
-            if (!fhist.exists())
-            {
+        try {
+            if (!fhist.exists()) {
                 FileUtils.forceMkdirParent(fhist);
                 fhist.createNewFile();
             }
-        }
-        catch(IOException ie)
-        {
+        } catch (IOException ie) {
             log.error("Failed to create new file.", ie);
             return;
         }
@@ -238,19 +201,16 @@ public class UIUtil
         HttpHists hists = new HttpHists(histLst);
         RESTUtil.toJsonFile(fhist, hists);
     }
-    
+
     /**
-    * 
-    * @Title: setRESTView 
-    * @Description: To set REST view 
-    * @param @param hists 
-    * @return void
-    * @throws
+     * @param @param hists
+     * @return void
+     * @throws
+     * @Title: setRESTView
+     * @Description: To set REST view
      */
-    public static void setRESTView(HttpHists hists)
-    {
-        if (null == hists || CollectionUtils.isEmpty(hists.getHists()))
-        {
+    public static void setRESTView(HttpHists hists) {
+        if (null == hists || CollectionUtils.isEmpty(hists.getHists())) {
             return;
         }
 
@@ -262,8 +222,7 @@ public class UIUtil
 
         // Set with new data
         List<HttpHist> histLst = hists.getHists();
-        for (HttpHist h : histLst)
-        {
+        for (HttpHist h : histLst) {
             RESTView.getView().getHistView().setHistView(h);
         }
 
@@ -271,44 +230,36 @@ public class UIUtil
         RESTView.getView().getReqView().setReqView(lastHist.getReq());
         RESTView.getView().getRspView().setRspView(lastHist.getRsp());
     }
-    
+
     /**
-    * 
-    * @Title: contents 
-    * @Description: get file contents
-    * @param @return
-    * @return String 
-    * @throws
+     * @param @return
+     * @return String
+     * @throws
+     * @Title: contents
+     * @Description: get file contents
      */
-    public static String contents(String filename)
-    {
+    public static String contents(String filename) {
         String content = StringUtils.EMPTY;
-        try
-        {
+        try {
             InputStream is = RESTUtil.getInputStream(filename);
             content = IOUtils.toString(is, Charsets.UTF_8.getCname());
             RESTUtil.close(is);
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             log.error("Failed to read file.", e);
         }
         return content;
     }
 
     /**
-    * 
-    * @Title: submit 
-    * @Description: Submit HTTP request 
-    * @param  
-    * @return void
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: submit
+     * @Description: Submit HTTP request
      */
-    public static void submit(ReqView rv)
-    {
+    public static void submit(ReqView rv) {
         String url = (String) rv.getCbUrl().getSelectedItem();
-        if (StringUtils.isBlank(url))
-        {
+        if (StringUtils.isBlank(url)) {
             return;
         }
 
@@ -319,27 +270,21 @@ public class UIUtil
         String body = rv.getPnlBody().getTxtAraBody().getText();
         String path = rv.getPnlBody().getTxtFldPath().getText();
 
-        try
-        {
-            if (BodyType.FILE.getType().equals(btype))
-            {
+        try {
+            if (BodyType.FILE.getType().equals(btype)) {
                 File f = new File(path);
-                if (f.exists())
-                {
+                if (f.exists()) {
                     body = FileUtils.readFileToString(new File(path), charset);
                 }
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             log.error("Failed to read file.", e);
         }
 
         Map<String, String> headers = UIUtil.getValuePair(rv.getPnlHdr().getTabMdl().getValues());
         Map<String, String> cookies = UIUtil.getValuePair(rv.getPnlCookie().getTabMdl().getValues());
         headers.put(RESTConst.CONTENT_TYPE, ctype + "; charset=" + charset);
-        if (null == headers.get(RESTConst.ACCEPT))
-        {
+        if (null == headers.get(RESTConst.ACCEPT)) {
             headers.put(RESTConst.ACCEPT, RESTConst.ACCEPT_TYPE);
         }
 
@@ -351,15 +296,13 @@ public class UIUtil
     }
 
     /**
-    * 
-    * @Title: setLocation 
-    * @Description: set component's location
-    * @param @param c 
-    * @return void
-    * @throws
+     * @param @param c
+     * @return void
+     * @throws
+     * @Title: setLocation
+     * @Description: set component's location
      */
-    public static void setLocation(Component c)
-    {
+    public static void setLocation(Component c) {
         int winWidth = c.getWidth();
         int winHeight = c.getHeight();
 
@@ -373,26 +316,22 @@ public class UIUtil
     }
 
     /**
-    * @Title      : setHistTabWidth 
-    * @Description: set history table width 
-    * @Param      : @param tab 
-    * @Return     : void
-    * @Throws     :
+     * @Title : setHistTabWidth
+     * @Description: set history table width
+     * @Param : @param tab
+     * @Return : void
+     * @Throws :
      */
-    public static void setHistTabWidth(JTable tab)
-    {
-        int width[] = { 35, 260, 81, 144, 50, 80 };
+    public static void setHistTabWidth(JTable tab) {
+        int width[] = {35, 260, 81, 144, 50, 80};
         TableColumnModel cols = tab.getColumnModel();
-        for (int i = 0; i < width.length; i++)
-        {
-            if (width[i] < 0)
-            {
+        for (int i = 0; i < width.length; i++) {
+            if (width[i] < 0) {
                 continue;
             }
 
             TableColumn col = cols.getColumn(i);
-            if (i == 1 || i == 4 || i == 5)
-            {
+            if (i == 1 || i == 4 || i == 5) {
                 col.setMinWidth(width[i]);
                 continue;
             }
@@ -401,84 +340,72 @@ public class UIUtil
             col.setMaxWidth(width[i]);
         }
     }
-    
+
     /**
-    * @Title      : rmRows 
-    * @Description: Remove selected rows 
-    * @Param      : @param tab
-    * @Param      : @param tabMdl 
-    * @Return     : void
-    * @Throws     :
+     * @Title : rmRows
+     * @Description: Remove selected rows
+     * @Param : @param tab
+     * @Param : @param tabMdl
+     * @Return : void
+     * @Throws :
      */
-    public static void rmRows(JTable tab, TabModel tabMdl)
-    {
+    public static void rmRows(JTable tab, TabModel tabMdl) {
         int src = tab.getSelectedRowCount();
-        if (src < 1)
-        {
+        if (src < 1) {
             return;
         }
 
         String key = StringUtils.EMPTY;
         int[] rows = tab.getSelectedRows();
-        for (int i : rows)
-        {
+        for (int i : rows) {
             key = tabMdl.getRowKey(i);
             RESTCache.getHists().remove(key);
         }
         tabMdl.deleteRow(rows);
 
         int rc = tabMdl.getRowCount();
-        for (int i = 0; i < rc; i++)
-        {
+        for (int i = 0; i < rc; i++) {
             tabMdl.setValueAt(i + 1, i, 0);
         }
     }
 
     /**
-    * 
-    * @Title      : updateCache 
-    * @Description: Update cache set assertbody and description field 
-    * @Param      :  
-    * @Return     : void
-    * @Throws     :
+     * @Title : updateCache
+     * @Description: Update cache set assertbody and description field
+     * @Param :
+     * @Return : void
+     * @Throws :
      */
-    public static void updateCache()
-    {
-        if (MapUtils.isEmpty(RESTCache.getHists()))
-        {
+    public static void updateCache() {
+        if (MapUtils.isEmpty(RESTCache.getHists())) {
             return;
         }
 
         Object dscr = null;
         Map<String, Object> dscrCols = RESTView.getView().getHistView().getTabMdl().getColumn(5);
-        for (HttpHist h : RESTCache.getHists().values())
-        {
+        for (HttpHist h : RESTCache.getHists().values()) {
             // Update description field
             dscr = dscrCols.get(h.getKey());
-            if (null != dscr)
-            {
+            if (null != dscr) {
                 h.setDescr(String.valueOf(dscr));
             }
         }
     }
-    
+
     /**
-    * @Title      : mvup 
-    * @Description: Move up 
-    * @Param      : @param es
-    * @Param      : @param row 
-    * @Return     : void
-    * @Throws     :
+     * @Title : mvup
+     * @Description: Move up
+     * @Param : @param es
+     * @Param : @param row
+     * @Return : void
+     * @Throws :
      */
-    private static void mvup(List<Entry<String, HttpHist>> es, int[] row)
-    {
+    private static void mvup(List<Entry<String, HttpHist>> es, int[] row) {
         Entry<String, HttpHist> ep = null;
         Entry<String, HttpHist> ec = null;
 
-        for (int i = 0; i < row.length; i++)
-        {
-            if (row[i] <= 0)
-            {
+        for (int i = 0; i < row.length; i++) {
+            if (row[i] <= 0) {
                 continue;
             }
 
@@ -489,24 +416,21 @@ public class UIUtil
             es.set(row[i], ep);
         }
     }
-    
+
     /**
-    * @Title      : mvdown 
-    * @Description: Move down 
-    * @Param      : @param es
-    * @Param      : @param row 
-    * @Return     : void
-    * @Throws     :
+     * @Title : mvdown
+     * @Description: Move down
+     * @Param : @param es
+     * @Param : @param row
+     * @Return : void
+     * @Throws :
      */
-    private static void mvdown(List<Entry<String, HttpHist>> es, int[] row)
-    {
+    private static void mvdown(List<Entry<String, HttpHist>> es, int[] row) {
         Entry<String, HttpHist> ec = null;
         Entry<String, HttpHist> en = null;
 
-        for (int i = row.length - 1; i >= 0; i--)
-        {
-            if (row[i] >= es.size() - 1)
-            {
+        for (int i = row.length - 1; i >= 0; i--) {
+            if (row[i] >= es.size() - 1) {
                 continue;
             }
 
@@ -517,35 +441,32 @@ public class UIUtil
             es.set(row[i] + 1, ec);
         }
     }
-    
+
     /**
-    * @Title      : move 
-    * @Description: Move up or down rows 
-    * @Param      : @param tab
-    * @Param      : @param tabMdl 
-    * @Return     : void
-    * @Throws     :
+     * @Title : move
+     * @Description: Move up or down rows
+     * @Param : @param tab
+     * @Param : @param tabMdl
+     * @Return : void
+     * @Throws :
      */
-    public static void move(JTable tab, TabModel tabMdl, boolean isup)
-    {
+    public static void move(JTable tab, TabModel tabMdl, boolean isup) {
         int src = tab.getSelectedRowCount();
-        if (src < 1)
-        {
+        if (src < 1) {
             return;
         }
 
         HttpReq req = null;
         HttpRsp rsp = null;
-        
+
         updateCache();
-        
-        List<Entry<String, HttpHist>> es = new ArrayList<Entry<String,HttpHist>>(RESTCache.getHists().entrySet());
+
+        List<Entry<String, HttpHist>> es = new ArrayList<Entry<String, HttpHist>>(RESTCache.getHists().entrySet());
         int[] row = tab.getSelectedRows();
         if (isup) // Move up
         {
             mvup(es, row);
-        }
-        else // Move down
+        } else // Move down
         {
             mvdown(es, row);
         }
@@ -555,60 +476,54 @@ public class UIUtil
 
         int i = 1;
         String key = StringUtils.EMPTY;
-        for (Entry<String, HttpHist> e : es)
-        {
+        for (Entry<String, HttpHist> e : es) {
             req = e.getValue().getReq();
             rsp = e.getValue().getRsp();
 
-            key = tabMdl.insertRow(i, 
-                         req.getMethod() + " " + req.getUrl(),
-                         rsp.getStatus(), 
-                         rsp.getDate(), 
-                         rsp.getTime() + "ms",
-                         e.getValue().getDescr());
+            key = tabMdl.insertRow(i,
+                    req.getMethod() + " " + req.getUrl(),
+                    rsp.getStatus(),
+                    rsp.getDate(),
+                    rsp.getTime() + "ms",
+                    e.getValue().getDescr());
 
             RESTCache.getHists().put(key, e.getValue());
             i++;
         }
     }
-    
+
     /**
-    * @Title      : showMessage 
-    * @Description: If it is not CLI running, 
-    *             : require a message dialog to tell user where is the file.
-    * @Param      : @param msg
-    * @Param      : @param title 
-    * @Return     : void
-    * @Throws     :
+     * @Title : showMessage
+     * @Description: If it is not CLI running,
+     * : require a message dialog to tell user where is the file.
+     * @Param : @param msg
+     * @Param : @param title
+     * @Return : void
+     * @Throws :
      */
-    public static void showMessage(final String msg, final String title)
-    {
-        if (!RESTCache.isCLIRunning())
-        {
+    public static void showMessage(final String msg, final String title) {
+        if (!RESTCache.isCLIRunning()) {
             JOptionPane.setDefaultLocale(Locale.US);
-            JOptionPane.showMessageDialog(RESTView.getView(), 
-                                          msg, 
-                                          title, 
-                                          JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(RESTView.getView(),
+                    msg,
+                    title,
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     /**
-    * 
-    * @Title      : getSelectedHist 
-    * @Description: Get first selected history case 
-    * @Param      : @param tab
-    * @Param      : @param tabMdl
-    * @Param      : @return 
-    * @Return     : String
-    * @Throws     :
+     * @Title : getSelectedHist
+     * @Description: Get first selected history case
+     * @Param : @param tab
+     * @Param : @param tabMdl
+     * @Param : @return
+     * @Return : String
+     * @Throws :
      */
-    public static HttpHist getSelectedHist(JTable tab, TabModel tabMdl)
-    {
+    public static HttpHist getSelectedHist(JTable tab, TabModel tabMdl) {
         HttpHist hist = null;
         int row = tab.getSelectedRow();
-        if (row < 0)
-        {
+        if (row < 0) {
             return hist;
         }
 
@@ -618,25 +533,21 @@ public class UIUtil
     }
 
     /**
-    * 
-    * @Title      : setSelectedHist 
-    * @Description: Set first selected history case  
-    * @Param      : @param hist
-    * @Param      : @param tab
-    * @Param      : @param tabMdl 
-    * @Return     : void
-    * @Throws     :
+     * @Title : setSelectedHist
+     * @Description: Set first selected history case
+     * @Param : @param hist
+     * @Param : @param tab
+     * @Param : @param tabMdl
+     * @Return : void
+     * @Throws :
      */
-    public static void setSelectedHist(HttpHist hist, JTable tab, TabModel tabMdl)
-    {
-        if (null == hist)
-        {
+    public static void setSelectedHist(HttpHist hist, JTable tab, TabModel tabMdl) {
+        if (null == hist) {
             return;
         }
 
         int row = tab.getSelectedRow();
-        if (row < 0)
-        {
+        if (row < 0) {
             return;
         }
 
@@ -646,27 +557,22 @@ public class UIUtil
     }
 
     /**
-    * 
-    * @Title      : refreshHistView 
-    * @Description: TODO 
-    * @Param      : @param hs
-    * @Param      : @param tabMdl 
-    * @Return     : void
-    * @Throws     :
+     * @Title : refreshHistView
+     * @Description: TODO
+     * @Param : @param hs
+     * @Param : @param tabMdl
+     * @Return : void
+     * @Throws :
      */
-    public static void refreshHistView(Collection<HttpHist> hs, TabModel tabMdl)
-    {
-        if (CollectionUtils.isEmpty(hs))
-        {
+    public static void refreshHistView(Collection<HttpHist> hs, TabModel tabMdl) {
+        if (CollectionUtils.isEmpty(hs)) {
             return;
         }
 
         List<HttpHist> hists = new ArrayList<HttpHist>(hs);
-        for (int row = 0; row < hists.size(); row++)
-        {
+        for (int row = 0; row < hists.size(); row++) {
             List<Object> rowData = tabMdl.getRow(row);
-            if (CollectionUtils.isEmpty(rowData))
-            {
+            if (CollectionUtils.isEmpty(rowData)) {
                 continue;
             }
             HttpHist hist = hists.get(row);
@@ -674,35 +580,29 @@ public class UIUtil
             tabMdl.setRowValues(values, row);
         }
     }
-    
+
     /**
-    * 
-    * @Title      : expand 
-    * @Description: Expand tree nodes
-    * @Param      : @param tree 
-    * @Return     : void
-    * @Throws     :
+     * @Title : expand
+     * @Description: Expand tree nodes
+     * @Param : @param tree
+     * @Return : void
+     * @Throws :
      */
-    public static void expand(JTree tree)
-    {
-        for (int r = 0; r < tree.getRowCount(); r++)
-        {
+    public static void expand(JTree tree) {
+        for (int r = 0; r < tree.getRowCount(); r++) {
             tree.expandRow(r);
         }
     }
 
     /**
-    * 
-    * @Title      : collapse 
-    * @Description: Collapse tree nodes
-    * @Param      : @param tree 
-    * @Return     : void
-    * @Throws     :
+     * @Title : collapse
+     * @Description: Collapse tree nodes
+     * @Param : @param tree
+     * @Return : void
+     * @Throws :
      */
-    public static void collapse(JTree tree)
-    {
-        for (int r = 0; r < tree.getRowCount(); r++)
-        {
+    public static void collapse(JTree tree) {
+        for (int r = 0; r < tree.getRowCount(); r++) {
             tree.collapseRow(r);
         }
     }

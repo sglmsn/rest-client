@@ -15,21 +15,20 @@
  */
 package org.wisdom.tool.thread;
 
+import org.wisdom.tool.constant.RESTConst;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.wisdom.tool.constant.RESTConst;
-
-/** 
-* @ClassName: RESTThdPool 
-* @Description: REST thread pool 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-18 PM 9:41:08 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public final class RESTThdPool
-{
+/**
+ * @ClassName: RESTThdPool
+ * @Description: REST thread pool
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-18 PM 9:41:08
+ * @Version: Wisdom RESTClient V1.3
+ */
+public final class RESTThdPool {
     /**
      * Thread pool
      */
@@ -38,21 +37,17 @@ public final class RESTThdPool
     // Pool instance
     private static RESTThdPool instance = null;
 
-    public static RESTThdPool getInstance()
-    {
-        if (instance == null)
-        {
+    public static RESTThdPool getInstance() {
+        if (instance == null) {
             instance = new RESTThdPool();
         }
         return instance;
     }
 
-    private RESTThdPool()
-    {
+    private RESTThdPool() {
     }
 
-    public ExecutorService getPool()
-    {
+    public ExecutorService getPool() {
         return pool;
     }
 

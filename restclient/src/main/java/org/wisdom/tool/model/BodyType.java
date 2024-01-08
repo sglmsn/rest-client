@@ -15,24 +15,22 @@
  */
 package org.wisdom.tool.model;
 
-/** 
-* @ClassName: BodyType 
-* @Description: Body type 
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com 
-* @Date: 2017-07-22 PM 10:42:57 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public enum BodyType
-{
+/**
+ * @ClassName: BodyType
+ * @Description: Body type
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-22 PM 10:42:57
+ * @Version: Wisdom RESTClient V1.3
+ */
+public enum BodyType {
     STRING(0, "String"), FILE(1, "File");
 
     private int tid;
 
     private String type;
 
-    private BodyType(int tid, String type)
-    {
+    private BodyType(int tid, String type) {
         this.tid = tid;
         this.type = type;
     }
@@ -40,34 +38,28 @@ public enum BodyType
     /**
      * @return tid
      */
-    public int getTid()
-    {
+    public int getTid() {
         return tid;
     }
 
     /**
-     * @param tid
-     *            the tid to set
+     * @param tid the tid to set
      */
-    public void setTid(int tid)
-    {
+    public void setTid(int tid) {
         this.tid = tid;
     }
 
     /**
      * @return type
      */
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
     /**
-     * @param type
-     *            the type to set
+     * @param type the type to set
      */
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 

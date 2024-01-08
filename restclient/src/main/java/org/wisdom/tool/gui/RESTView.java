@@ -15,32 +15,28 @@
  */
 package org.wisdom.tool.gui;
 
-import java.awt.BorderLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
-
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.gui.hist.HistView;
 import org.wisdom.tool.gui.req.ReqView;
 import org.wisdom.tool.gui.rsp.RspView;
 
-/** 
- * @ClassName: RESTView 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+
+/**
+ * @ClassName: RESTView
  * @Description: Rest view frame
  * @Author: Yudong (Dom) Wang
- * @Email: wisdomtool@qq.com 
- * @Date: Jan 20, 2017 12:30:29 PM 
- * @Version: Wisdom RESTClient V1.3 
+ * @Email: wisdomtool@qq.com
+ * @Date: Jan 20, 2017 12:30:29 PM
+ * @Version: Wisdom RESTClient V1.3
  */
-public class RESTView extends JPanel
-{
+public class RESTView extends JPanel {
     private static final long serialVersionUID = 957993921065702646L;
 
     private static RESTView view = null;
-    
+
     private ReqView vReq = null;
 
     private RspView vRsp = null;
@@ -48,51 +44,42 @@ public class RESTView extends JPanel
     private HistView vHist = null;
 
     private JTabbedPane tp = null;
-    
-    public RESTView()
-    {
+
+    public RESTView() {
         this.init();
     }
 
-    public static RESTView getView()
-    {
-        if (null == view)
-        {
+    public static RESTView getView() {
+        if (null == view) {
             view = new RESTView();
         }
         return view;
     }
 
-    public ReqView getReqView()
-    {
+    public ReqView getReqView() {
         return vReq;
     }
 
-    public RspView getRspView()
-    {
+    public RspView getRspView() {
         return vRsp;
     }
 
-    public HistView getHistView()
-    {
+    public HistView getHistView() {
         return vHist;
     }
 
-    public JTabbedPane getTabPane()
-    {
+    public JTabbedPane getTabPane() {
         return tp;
     }
 
     /**
-    * 
-    * @Title: init 
-    * @Description: Component Initialization 
-    * @param
-    * @return void 
-    * @throws
+     * @param
+     * @return void
+     * @throws
+     * @Title: init
+     * @Description: Component Initialization
      */
-    private void init()
-    {
+    private void init() {
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
         this.setBorder(BorderFactory.createEmptyBorder(RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH, RESTConst.BORDER_WIDTH));
 

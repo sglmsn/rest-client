@@ -15,26 +15,25 @@
  */
 package org.wisdom.tool.cache;
 
-import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.apache.commons.collections.MapUtils;
 import org.wisdom.tool.constant.RESTConst;
 import org.wisdom.tool.model.Causes;
 import org.wisdom.tool.model.HttpHist;
 import org.wisdom.tool.util.RESTUtil;
 
-/** 
-* @ClassName: RESTCache 
-* @Description: REST cache
-* @Author: Yudong (Dom) Wang
-* @Email: wisdomtool@qq.com
-* @Date: 2017-07-27 PM 5:01:37 
-* @Version: Wisdom RESTClient V1.3 
-*/
-public class RESTCache
-{
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * @ClassName: RESTCache
+ * @Description: REST cache
+ * @Author: Yudong (Dom) Wang
+ * @Email: wisdomtool@qq.com
+ * @Date: 2017-07-27 PM 5:01:37
+ * @Version: Wisdom RESTClient V1.3
+ */
+public class RESTCache {
     /**
      * HTTP histories
      */
@@ -50,30 +49,24 @@ public class RESTCache
      */
     private static boolean isCLIRunning;
 
-    public static boolean isCLIRunning()
-    {
+    public static boolean isCLIRunning() {
         return isCLIRunning;
     }
 
-    public static void setCLIRunning(boolean isCLIRunning)
-    {
+    public static void setCLIRunning(boolean isCLIRunning) {
         RESTCache.isCLIRunning = isCLIRunning;
     }
 
-    public static Map<String, HttpHist> getHists()
-    {
+    public static Map<String, HttpHist> getHists() {
         return hists;
     }
 
-    public static Causes getCauses()
-    {
-        if (null == cs)
-        {
+    public static Causes getCauses() {
+        if (null == cs) {
             InputStream is = RESTUtil.getInputStream(RESTConst.CAUSE_JSON);
             cs = RESTUtil.toOject(is, Causes.class);
             RESTUtil.close(is);
-            if (null == cs || MapUtils.isEmpty(cs.getCauses()))
-            {
+            if (null == cs || MapUtils.isEmpty(cs.getCauses())) {
                 return null;
             }
         }
