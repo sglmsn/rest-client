@@ -16,7 +16,7 @@
  * limitations under the License.
  *
 -->
-<Configuration status="error" strict="true"> 
+<Configuration status="info" strict="true">
     <Properties> 
         <Property name="filename">work/log/rest-client.log</Property> 
     </Properties>  
@@ -33,19 +33,19 @@
         </RollingFile> 
     </Appenders>  
     <Loggers> 
-        <Logger name="org.wisdom.tool" level="info" additivity="false"> 
+        <Logger name="org.wisdom.tool" level="info" additivity="true">
             <AppenderRef ref="REST_CLIENT_APPEND"/> 
         </Logger>  
-        <Logger name="org.apache.commons" level="error" additivity="false"> 
+        <Logger name="org.apache.commons" level="error" additivity="true">
             <AppenderRef ref="REST_CLIENT_APPEND"/> 
         </Logger>  
-        <Logger name="org.apache.http" level="error" additivity="false"> 
+        <Logger name="org.apache.http" level="error" additivity="true">
             <AppenderRef ref="REST_CLIENT_APPEND"/> 
         </Logger>  
-        <Logger name="com.fasterxml.jackson" level="error" additivity="false"> 
+        <Logger name="com.fasterxml.jackson" level="error" additivity="true">
             <AppenderRef ref="REST_CLIENT_APPEND"/> 
         </Logger>  
-        <Logger name="com.google.gson" level="error" additivity="false"> 
+        <Logger name="com.google.gson" level="error" additivity="true">
             <AppenderRef ref="REST_CLIENT_APPEND"/> 
         </Logger>  
         <Root level="all"> 

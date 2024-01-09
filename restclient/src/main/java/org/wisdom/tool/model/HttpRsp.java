@@ -53,6 +53,9 @@ public class HttpRsp implements Serializable {
      */
     private String body;
 
+
+    byte[] bodyBytes;
+
     /**
      * Headers
      */
@@ -262,6 +265,15 @@ public class HttpRsp implements Serializable {
         }
 
         return sb.toString();
+    }
+
+
+    public byte[] getBodyBytes() {
+        return bodyBytes;
+    }
+
+    public void setBodyBytes(byte[] bodyBytes) {
+        this.bodyBytes = bodyBytes;
     }
 
     @Override

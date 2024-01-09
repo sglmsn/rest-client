@@ -60,7 +60,9 @@ public final class RESTClient {
     private HttpRsp result(Response resp) {
         HttpRsp result = new HttpRsp();
         try {
-            result.setBody(resp.body().string());
+            result.setBodyBytes(resp.body().bytes());
+            result.setBody(new String(result.getBodyBytes()));
+
             result.setStatusCode(resp.code());
             result.setMessage(resp.message());
             result.setHeaders(new HashMap<String, String>());

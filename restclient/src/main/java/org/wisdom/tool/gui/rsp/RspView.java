@@ -15,6 +15,8 @@
  */
 package org.wisdom.tool.gui.rsp;
 
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.wisdom.tool.constant.RESTConst;
@@ -23,6 +25,7 @@ import org.wisdom.tool.model.HttpRsp;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -105,8 +108,8 @@ public class RspView extends JPanel {
      */
     public void reset() {
         txtFldStat.setText(StringUtils.EMPTY);
-        pnlRaw.getTxtAra().setText(StringUtils.EMPTY);
-        pnlBody.getTxtAra().setText(StringUtils.EMPTY);
+        extracted(pnlRaw.getTxtAra(), StringUtils.EMPTY);
+        extracted(pnlBody.getTxtAra(), StringUtils.EMPTY);
         pnlHdr.getTabMdl().clear();
     }
 
@@ -123,8 +126,11 @@ public class RspView extends JPanel {
         }
 
         txtFldStat.setText(rsp.getStatus());
-        pnlRaw.getTxtAra().setText(rsp.getRawTxt());
-        pnlBody.getTxtAra().setText(rsp.getBody());
+        String rawTxt = rsp.getRawTxt();
+        JTextArea txtAra = pnlRaw.getTxtAra();
+        extracted(txtAra, rawTxt);
+        extracted(pnlBody.getTxtAra(), rsp.getBody());
+
 
         // Set headers
         pnlHdr.getTabMdl().clear();
@@ -134,6 +140,37 @@ public class RspView extends JPanel {
                 pnlHdr.getTabMdl().insertRow(e.getKey(), e.getValue());
             }
         }
+    }
+
+    public static void extracted(JTextArea txtAra, String rawTxt) {
+        txtAra.setText("");
+        if (StrUtil.isBlank(rawTxt)) {
+            return;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            SwingWorker<Void, String> f = new SwingWorker<Void, String>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    String[] split = StrUtil.split(rawTxt, 1000);
+                    for (String s : split) {
+                        publish(s);
+                        ThreadUtil.sleep(500);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void process(List<String> chunks) {
+                    for (String chunk : chunks) {
+                        txtAra.append(chunk);
+                    }
+                }
+            };
+            f.execute();
+        });
+
+
     }
 
 }

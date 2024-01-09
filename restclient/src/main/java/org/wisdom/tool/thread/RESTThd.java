@@ -15,6 +15,7 @@
  */
 package org.wisdom.tool.thread;
 
+import okhttp3.Call;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +38,11 @@ public class RESTThd extends Thread {
     @Override
     public void interrupt() {
         try {
-            RESTView.getView().getReqView().getCall().cancel();
+            Call call = RESTView.getView().getReqView().getCall();
+            if (call != null) {
+                call.cancel();
+
+            }
             super.interrupt();
         } catch (Throwable e) {
             log.error("Failed to interrupt thread.", e);

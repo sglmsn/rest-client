@@ -45,6 +45,8 @@ public class RspTextPanel extends JPanel implements ActionListener {
     private JMenuItem miFmt = null;
 
     private JMenuItem miCpy = null;
+    private JMenuItem miExportFile = null;
+
 
     private MouseAdapter ma = new MouseAdapter() {
         private void popup(MouseEvent e) {
@@ -96,7 +98,7 @@ public class RspTextPanel extends JPanel implements ActionListener {
     private void init(String name) {
         this.setLayout(new BorderLayout(RESTConst.BORDER_WIDTH, 0));
 
-        txtAra = new JTextArea(RESTConst.AREA_ROWS, 1);
+        txtAra = new JTextArea(RESTConst.AREA_ROWS, 100);
         txtAra.setName(name);
         txtAra.setEditable(false);
         txtAra.addMouseListener(ma);
@@ -109,10 +111,19 @@ public class RspTextPanel extends JPanel implements ActionListener {
         miCpy.setName(RESTConst.COPY);
         miCpy.addActionListener(this);
 
+
+        miExportFile = new JMenuItem("导出到文件");
+        miExportFile.setName("导出到文件");
+        miExportFile.addActionListener(e -> {
+
+        });
+
         pm = new JPopupMenu();
         pm.add(miCpy);
         pm.addSeparator();
         pm.add(miFmt);
+        pm.addSeparator();
+        pm.add(miExportFile);
 
         JPanel pnlCenter = new JPanel();
         pnlCenter.setLayout(new BorderLayout());
